@@ -6,6 +6,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -17,7 +21,7 @@ public class Service {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer serviceId;
 
-    @Column(nullable = false, length = 200)
+    @Column(name = "service_name", length = 200)
     private String serviceName;
 
     @Column(length = 1000)
@@ -26,4 +30,7 @@ public class Service {
     private Integer price;
 
     private Boolean isActive;
+
+    @OneToMany(mappedBy = "service", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ServiceImage> serviceImages = new ArrayList<>();
 }

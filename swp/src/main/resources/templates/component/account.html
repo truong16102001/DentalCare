@@ -1,4 +1,5 @@
 <div th:fragment="account" xmlns:th="http://www.w3.org/1999/xhtml">
+
 <!-- Notification User -->
 <div th:if="${notification != null}"
      th:classappend="${#strings.contains(notification.toLowerCase(), 'thành công')} ? 'alert alert-success' : 'alert alert-danger'"
@@ -10,7 +11,7 @@
 </div>
 
 <!-- User Profile Modal -->
-<div class="modal fade col-md-12" id="userProfileModal" tabindex="-1" role="dialog" style="padding-right: 18px;">
+<div class="modal fade col-md-12" id="userProfileModal" tabindex="-1" role="dialog" style="padding-right: 18px;" th:if="${session.us != null}">
   <div class="modal-dialog">
     <div class="modal-content" style="border-radius: 10px; margin-top: 10px; min-width: 1150px; margin-left: -320px;">
       <div class="modal-header">
@@ -89,7 +90,7 @@
 </div>
 
 <!--changepassword-->
-<div class="modal fade col-md-12" role="dialog" id="ChangePasswordModal">
+<div class="modal fade col-md-12" role="dialog" id="ChangePasswordModal" th:if="${session.us != null}">
   <div class="modal-dialog">
     <div class="modal-content" style="border-radius: 10px; margin-top: 150px;">
       <div class="modal-header">
@@ -129,36 +130,6 @@
   </div>
 </div>
 
-<!--reset password-->
-<div class="modal fade col-md-12" role="dialog" id="ResetPasswordModal">
-  <div class="modal-dialog">
-    <div class="modal-content" style="border-radius: 10px; margin-top: 150px;">
-      <div class="modal-header">
-        <h1 style="text-align: center ; margin-left: 70px;">Cấp lại mật khẩu</h1>
-      </div>
-      <div class="modal-body">
-        <form th:action="@{/resetpassword}" method="post">
-          <div class="row form-group">
-            <label class="labels" style="font-size: 12px;">Email <b class="ic">*</b></label>
-            <input name="email" type="email" class="form-control" placeholder="Email của bạn" style="border-radius: 100px;" required>
-          </div>
-          <br>
-          <center>
-            <button type="submit" class="btn btn-dark" style="padding-right: 200px;
-                                padding-left: 200px;
-                                border-radius: 100px;
-                                margin-bottom: -40px;
-                                height: 50px;">Gửi
-            </button>
-          </center>
-        </form>
-        <br><br>
-        <a type="button" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#loginModal"
-           style="padding-left: 170px; text-decoration: none; border-radius: 100px;">Quay lại Đăng nhập</a>
-      </div>
-    </div>
-  </div>
-</div>
 
 <script>
   if (document.querySelector('.alert')) {

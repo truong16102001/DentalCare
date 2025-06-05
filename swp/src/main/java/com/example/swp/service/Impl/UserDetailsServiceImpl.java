@@ -1,4 +1,4 @@
-package com.example.swp.service;
+package com.example.swp.service.Impl;
 
 import com.example.swp.entity.User;
 import com.example.swp.repository.UserRepository;

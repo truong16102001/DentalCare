@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -19,4 +22,7 @@ public class Image {
 
     @Column(columnDefinition = "TEXT")
     private String imageUrl;
+
+    @OneToMany(mappedBy = "image", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ServiceImage> serviceImages = new ArrayList<>();
 }

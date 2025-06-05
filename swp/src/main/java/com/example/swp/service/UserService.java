@@ -15,4 +15,5 @@ public interface UserService {
     public long getTotalUsers();
     User findByUserId(int userId);
 
+    String createPasswordResetToken(User user);
 }

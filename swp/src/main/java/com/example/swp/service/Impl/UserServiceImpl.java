@@ -1,17 +1,17 @@
 package com.example.swp.service.Impl;
 
-import ch.qos.logback.core.subst.Token;
+import com.example.swp.entity.Token;
 import com.example.swp.entity.User;
+import com.example.swp.repository.TokenRepository;
 import com.example.swp.repository.UserRepository;
 import com.example.swp.service.UserService;
+import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,6 +20,7 @@ import java.util.UUID;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserServiceImpl  implements UserService {
     private UserRepository userRepository;
+    private TokenRepository tokenRepository;
 
     @Override
     public User findByEmail(String email) {
@@ -30,7 +31,6 @@ public class UserServiceImpl  implements UserService {
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
     }
-
 
     @Override
     public User save(User user) {
@@ -55,6 +55,16 @@ public class UserServiceImpl  implements UserService {
     @Override
     public User findByUserId(int userId){
         return userRepository.findByUserId(userId);
+    }
+
+    @Transactional
+    public String createPasswordResetToken(User user) {
+        Token resetToken = tokenRepository.findByUser(user).orElse(new Token());
+        resetToken.setToken(UUID.randomUUID().toString());
+        resetToken.setUser(user);
+        resetToken.setExpiryDate(LocalDateTime.now().plusHours(1));
+        tokenRepository.save(resetToken);
+        return resetToken.getToken();
     }
 
 }

@@ -1,6 +1,6 @@
 package com.example.swp.security;
 
-import com.example.swp.service.UserDetailsServiceImpl;
+import com.example.swp.service.Impl.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,8 +27,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/register","/login", "/css/**", "/js/**", "/images/**").permitAll() // public routes
-                        .anyRequest().authenticated()
+                        .requestMatchers("/","/home","/register","/forgot-password","/service","/reset-password","/login", "/css/**", "/js/**", "/images/**").permitAll() // public routes
                 )
                 .formLogin(form -> form
                         .loginPage("/login")             // Trang login tùy chỉnh

@@ -24,6 +24,7 @@ public class HomeController {
     @GetMapping("/home")
     public String homePage(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession(false);
+        model.addAttribute("active", 1);
         if (session != null) {
             String notification = (String) session.getAttribute("notification");
             if (notification != null) {

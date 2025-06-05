@@ -7,20 +7,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@IdClass(ServiceImageId.class)
+@Table(name = "Service_Image")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@IdClass(ServiceImageId.class)
-@Table(name = "Service_Image")
 public class ServiceImage {
     @Id
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "service_id")
     private Service service;
 
     @Id
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "image_id")
     private Image image;
 }
+

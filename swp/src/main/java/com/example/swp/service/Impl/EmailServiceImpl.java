@@ -36,7 +36,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public String generateOtp() {
+    public String generateRandom() {
         SecureRandom random = new SecureRandom();
         StringBuilder sb = new StringBuilder(PASSWORD_LENGTH);
 
