@@ -35,7 +35,7 @@ public class UserController {
     UserService userService;
     RoleRepository roleRepository;
     EmailService emailService;
-     TokenRepository tokenRepository;
+    TokenRepository tokenRepository;
 
     @Autowired
     public  UserController(UserService userService, EmailService emailService, RoleRepository roleRepository, TokenRepository tokenRepository){
@@ -119,10 +119,10 @@ public class UserController {
 
     @PostMapping("/changepassword")
     public String changepassword( @RequestParam("userId") int userId,
-                               @RequestParam("old_pass") String old_pass,
-                               @RequestParam("new_pass1") String new_pass1,
-                               @RequestParam("new_pass2") String new_pass2,
-                               HttpSession session) {
+                                  @RequestParam("old_pass") String old_pass,
+                                  @RequestParam("new_pass1") String new_pass1,
+                                  @RequestParam("new_pass2") String new_pass2,
+                                  HttpSession session) {
 
         User user = userService.findByUserId(userId);
         if(!user.getPassword().equals(old_pass)){

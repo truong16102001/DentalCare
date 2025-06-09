@@ -1,5 +1,6 @@
 package com.example.swp.repository.Impl;
 
+import com.example.swp.entity.Booking;
 import com.example.swp.entity.Service;
 import com.example.swp.repository.DentalCareCustomRepository;
 import jakarta.persistence.EntityManager;
@@ -24,7 +25,7 @@ public class DentalCareCustomRepositoryImpl implements DentalCareCustomRepositor
                 "SELECT DISTINCT s FROM Service s " +
                         "LEFT JOIN FETCH s.serviceImages si " +
                         "LEFT JOIN FETCH si.image i " +
-                        "WHERE 1=1"
+                        "WHERE 1=1 AND s.isActive = true "
         );
 
         if (key != null && !key.trim().isEmpty()) {
@@ -65,7 +66,7 @@ public class DentalCareCustomRepositoryImpl implements DentalCareCustomRepositor
 
     @Override
     public int countServices(String key) {
-        StringBuilder jpql = new StringBuilder("SELECT COUNT(s) FROM Service s WHERE 1=1");
+        StringBuilder jpql = new StringBuilder("SELECT COUNT(s) FROM Service s WHERE 1=1 AND s.isActive = true ");
 
         if (key != null && !key.trim().isEmpty()) {
             jpql.append(" AND (");
@@ -81,5 +82,58 @@ public class DentalCareCustomRepositoryImpl implements DentalCareCustomRepositor
         }
 
         return query.getSingleResult().intValue();
+    }
+
+    @Override
+    public Service findById(int serviceId) {
+        String jpql = "SELECT DISTINCT s FROM Service s " +
+                "LEFT JOIN FETCH s.serviceImages si " +
+                "LEFT JOIN FETCH si.image i " +
+                "WHERE s.serviceId = :serviceId";
+
+        TypedQuery<Service> query = entityManager.createQuery(jpql, Service.class);
+        query.setParameter("serviceId", serviceId);
+
+        List<Service> resultList = query.getResultList();
+        return resultList.isEmpty() ? null : resultList.get(0);
+    }
+
+    @Override
+    public List<Service> getRelatedServices(int serviceId) {
+        String jpql = "SELECT DISTINCT s FROM Service s " +
+                "LEFT JOIN FETCH s.serviceImages si " +
+                "LEFT JOIN FETCH si.image i " +
+                "WHERE s.serviceId <> :serviceId AND s.isActive = true";
+
+        TypedQuery<Service> query = entityManager.createQuery(jpql, Service.class);
+        query.setParameter("serviceId", serviceId);
+
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Booking> findBookingsByUserId(int userId) {
+        String jpql = "SELECT b FROM Booking b " +
+                "JOIN FETCH b.service s " +
+                "WHERE b.patient.userId = :userId " +
+                "AND (b.status = 'Pending' OR b.status = 'Approved')";
+
+        TypedQuery<Booking> query = entityManager.createQuery(jpql, Booking.class);
+        query.setParameter("userId", userId);
+
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Booking> findBookingsByPhoneNumber(String phoneNumber) {
+        String jpql = "SELECT b FROM Booking b " +
+                "JOIN FETCH b.service s " +
+                "WHERE b.phoneNumber = :phoneNumber " +
+                " AND (b.status = 'Pending' OR b.status = 'Approved')";
+
+        TypedQuery<Booking> query = entityManager.createQuery(jpql, Booking.class);
+        query.setParameter("phoneNumber", phoneNumber);
+
+        return query.getResultList();
     }
 }

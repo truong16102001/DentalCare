@@ -4,11 +4,10 @@ import jakarta.persistence.*;
 import lombok.*;
 
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Builder
 @Table(name = "Roles")

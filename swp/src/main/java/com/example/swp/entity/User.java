@@ -1,12 +1,15 @@
 package com.example.swp.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.List;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -50,4 +53,12 @@ public class User {
     private Role role;
 
     private Boolean isActive;
+
+    @OneToMany(mappedBy = "patient")
+    @JsonManagedReference
+    private List<Booking> bookingsAsPatient;
+
+    @OneToMany(mappedBy = "recipient")
+    @JsonBackReference
+    private List<Booking> bookingsAsRecipient;
 }

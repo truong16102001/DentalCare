@@ -27,7 +27,10 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/","/home","/register","/forgot-password","/service","/reset-password","/login", "/css/**", "/js/**", "/images/**").permitAll() // public routes
+                        .requestMatchers("/","/home","/register","/service","/service-details","/service-booking","/booking-success"
+                                ,"/forgot-password","/service","/reset-password"
+                                ,"/login", "/css/**", "/js/**", "/images/**")
+                        .permitAll() // public routes
                 )
                 .formLogin(form -> form
                         .loginPage("/login")             // Trang login tùy chỉnh

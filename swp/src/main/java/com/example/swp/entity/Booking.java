@@ -1,16 +1,16 @@
 package com.example.swp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -25,10 +25,12 @@ public class Booking {
     private Service service;
 
     @ManyToOne
+    @JsonManagedReference
     @JoinColumn(name = "patient_id")
     private User patient;
 
     @ManyToOne
+    @JsonManagedReference
     @JoinColumn(name = "recipient_id")
     private User recipient;
 

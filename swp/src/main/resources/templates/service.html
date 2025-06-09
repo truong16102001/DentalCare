@@ -2,17 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <link rel="icon" type="image/x-icon" href="./images/logo.png">
-  <link rel="stylesheet" href="./assets/css/style.css">
-  <link rel="stylesheet" href="./assets/css/styles.css">
-  <link rel="stylesheet" href="./assets/css/style_1.css">
-  <link rel="stylesheet" href="./assets/fonts/themify-icons/themify-icons.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <link rel="icon" type="image/x-icon" href="/images/logo.png">
   <title>Dịch vụ</title>
-
+  <th:block th:replace="component/javascript :: javascript"></th:block>
   <style>
     li.nav-item a.active {
         color: blue;
@@ -57,12 +49,25 @@
         font-size: 14px;
     }
   </style>
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/css/style1.css">
+  <link rel="stylesheet" href="/css/style2.css">
+  <link rel="stylesheet" href="/assets/fonts/themify-icons.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <th:block th:replace="component/javascript :: javascript"></th:block>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
 <div id="main">
-
   <!-- Include header -->
-  <div th:replace="component/header :: header"></div>
+  <th:block th:replace="component/header :: header"></th:block>
 
   <div class="container-fluid" style="margin-top: 100px ">
     <div class="row">
@@ -116,21 +121,22 @@
               <div class="product-item">
                 <div class="product-top" style="margin-top: 10px">
                   <a th:href="@{/service-details(id=${p.serviceId})}" class="product-thumb">
-                    <img th:if="${#lists.isNotEmpty(p.serviceImages)}"
-                         th:src="${p.serviceImages[0].image.url}"
+                    <img th:if="${p.serviceImages != null and p.serviceImages.size() > 0}"
+                         th:src="${p.serviceImages[0].image.imageUrl}"
                          alt="" style="height: 250px; width: 250px;">
-                    <img th:if="${#lists.isEmpty(p.serviceImages)}"
+                    <img th:if="${p.serviceImages == null or p.serviceImages.size() == 0}"
                          src="/images/dental-bg.png"
                          alt="" style="height: 250px; width: 250px;">
                   </a>
 
-                  <a th:if="${session.us != null and session.us.role == '5'}"
+                  <a th:if="${session.us == null or (session.us != null and session.us.role == '5')}"
                      style="cursor: pointer;"
-                     class="buy-now">Đặt lịch</a>
+                     class="buy-now"
+                    th:href="@{/service-booking(id=${p.serviceId},step=1)}">Đặt lịch</a>
                 </div>
                 <div class="product-infor">
                   <div style="height: 100px;">
-                    <a href="#" style="font-size: 20px" class="product-name" th:text="${p.serviceName}"></a>
+                    <a th:href="@{/service-details(id=${p.serviceId})}" style="font-size: 20px" class="product-name" th:text="${p.serviceName}"></a>
                   </div>
                   <div class="product-price" th:text="${p.price + 'đ'}"></div>
                 </div>
@@ -176,7 +182,7 @@
   </div>
 
   <!-- Include footer -->
-  <div th:replace="component/footer :: footer"></div>
+  <th:block th:replace="component/footer :: footer"></th:block>
 
   <script>
     function clearInput() {

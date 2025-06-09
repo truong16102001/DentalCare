@@ -2,7 +2,6 @@ package com.example.swp.security;
 
 import com.example.swp.entity.User;
 import com.example.swp.repository.UserRepository;
-import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -35,12 +34,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             session.setAttribute("us", user);
         }
         Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
-        if (roles.contains("ROLE_ADMIN")) {
-            response.sendRedirect("/admin/dashboard");
-        } else if (roles.contains("ROLE_MANAGER")) {
-            response.sendRedirect("/manager");
-        } else if (roles.contains("ROLE_DOCTOR")) {
-            response.sendRedirect("/doctor-care");
+        if (roles.contains("ADMIN")) {
+            response.sendRedirect("/admin-manage");
         } else {
             response.sendRedirect("/home");
         }

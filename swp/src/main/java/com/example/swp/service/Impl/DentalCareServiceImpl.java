@@ -1,5 +1,6 @@
 package com.example.swp.service.Impl;
 
+import com.example.swp.entity.Booking;
 import com.example.swp.repository.DentalCareCustomRepository;
 import com.example.swp.repository.DentalCareRepository;
 import com.example.swp.service.DentalCareService;
@@ -28,5 +29,25 @@ public class DentalCareServiceImpl implements DentalCareService {
     public int getTotalPages(String key) {
         int totalCount = dentalCareCustomRepository.countServices(key);
         return (int) Math.ceil((double) totalCount / PAGE_SIZE);
+    }
+
+    @Override
+    public com.example.swp.entity.Service findById(int serviceId) {
+        return dentalCareCustomRepository.findById(serviceId);
+    }
+
+    @Override
+    public List<com.example.swp.entity.Service> getRelatedServices(int serviceId) {
+        return dentalCareCustomRepository.getRelatedServices(serviceId);
+    }
+
+    @Override
+    public List<Booking> getBookingServicesByUserId(int userId) {
+        return dentalCareCustomRepository.findBookingsByUserId(userId);
+    }
+
+    @Override
+    public List<Booking> getBookingServicesByPhoneNumber(String phoneNumber) {
+        return dentalCareCustomRepository.findBookingsByPhoneNumber(phoneNumber);
     }
 }
