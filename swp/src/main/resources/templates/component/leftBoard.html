@@ -66,7 +66,7 @@
    }
   </style>
 </head>
-<body th:fragment="leftboard">
+<body th:fragment="leftBoard">
 <div class="col-md-2" style="border-right: 1px solid #DCDCDC;">
   <div class="title_module_arrow">
     <h2 class="margin-top-0"><span>Danh mục quản lý</span></h2>
@@ -76,7 +76,7 @@
     <nav class="cate_padding nav-category navbar-toggleable-md">
       <ul class="nav-ul nav navbar-pills flex-column">
 
-        <div th:if="${session.roleId == '1'}">
+        <div th:if="${session.roleId == 1}">
           <a class="nav-link" th:classappend="${p == 0} ? 'active'" th:href="@{/manage(p=0)}">
             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
             Thống kê
@@ -87,7 +87,7 @@
           </a>
         </div>
 
-        <div th:if="${session.roleId == '2'}">
+        <div th:if="${session.roleId == 2}">
           <a class="nav-link" th:classappend="${p == 1} ? 'active'" th:href="@{/manage-booking(p=1)}">
             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
             Quản lý lịch hẹn
@@ -102,15 +102,15 @@
           </a>
         </div>
 
-        <div th:if="${session.roleId == '3'}">
+        <div th:if="${session.roleId == 3}">
           <a class="nav-link" th:classappend="${p == 1} ? 'active'" th:href="@{/schedule(p=3)}">
             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
             Xem lịch hẹn cá nhân
           </a>
         </div>
 
-        <div th:if="${session.roleId == '4'}">
-          <a class="nav-link" th:classappend="${p == 1} ? 'active'" th:href="@{/manage-booking(p=3)}">
+        <div th:if="${session.roleId == 4}">
+          <a class="nav-link" th:classappend="${p == 3} ? 'active'" th:href="@{/manage-booking(p=3)}">
             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
             Quản lý lịch hẹn
           </a>

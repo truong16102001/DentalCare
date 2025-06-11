@@ -31,7 +31,9 @@ public class SecurityConfig {
                                 ,"/forgot-password","/service","/reset-password"
                                 ,"/login", "/css/**", "/js/**", "/images/**")
                         .permitAll()
-                        .requestMatchers("/admin-manage").hasAuthority("ADMIN") // 👈 THÊM DÒNG NÀY
+                        .requestMatchers("/admin-manage").hasAuthority("ADMIN")
+                        .requestMatchers("/receptionist-manage").hasAuthority("RECEPTIONIST")
+                        .requestMatchers( "/manage-booking", "/update-booking").hasAnyAuthority("RECEPTIONIST", "MANAGER")
                         .anyRequest().authenticated()// public routes
                 )
                 .formLogin(form -> form
