@@ -11,9 +11,9 @@ import com.example.swp.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.token.TokenService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -106,7 +106,18 @@ public class UserController {
             user.setAddress(address);
             user.setAvatar(base64Avatar);
             userService.save(user);
-            session.setAttribute("us", user);
+            session.setAttribute("userId", user.getUserId());
+            session.setAttribute("fullName", user.getFullName());
+            session.setAttribute("email", user.getEmail());
+            session.setAttribute("roleId", user.getRole().getRoleId());
+            session.setAttribute("roleName", user.getRole().getRoleName());
+            session.setAttribute("dob", user.getDob());
+            session.setAttribute("avatar", user.getAvatar());
+            session.setAttribute("address", user.getAddress());
+            session.setAttribute("password", user.getPassword());
+            session.setAttribute("gender", user.getGender());
+            session.setAttribute("phoneNumber", user.getPhoneNumber());
+            session.setAttribute("isActive", user.getIsActive());
 
             session.setAttribute("notification", "Cập nhật thông tin thành công !");
         }
@@ -180,7 +191,7 @@ public class UserController {
         user.setPhoneNumber(userRegisterDTO.getPhoneNumber());
         user.setAddress(userRegisterDTO.getAddress());
         user.setDob(userRegisterDTO.getDob());
-        user.setIsActive(true); // chưa kích hoạt
+        user.setIsActive(true);
         user.setRole(defaultRole.get());
         userService.save(user);
         session.setAttribute("notification", "Đăng ký thành công. Chúng tôi đã gửi mật khẩu đăng nhập tới email: " + user.getEmail());
@@ -223,7 +234,6 @@ public class UserController {
         model.addAttribute("token", token);
         return "reset-password";
     }
-
 
     @PostMapping("/reset-password")
     public String processResetPassword(

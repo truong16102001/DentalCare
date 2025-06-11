@@ -1,19 +1,16 @@
 package com.example.swp.entity;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
-import java.util.List;
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 @Entity
 @Builder
 @Table(name = "Users")
@@ -31,7 +28,7 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(length = 50)
+    @Column(length = 200)
     private String fullName;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -48,17 +45,9 @@ public class User {
     @Column(length = 200)
     private String address;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "roleID")
     private Role role;
 
     private Boolean isActive;
-
-    @OneToMany(mappedBy = "patient")
-    @JsonManagedReference
-    private List<Booking> bookingsAsPatient;
-
-    @OneToMany(mappedBy = "recipient")
-    @JsonBackReference
-    private List<Booking> bookingsAsRecipient;
 }

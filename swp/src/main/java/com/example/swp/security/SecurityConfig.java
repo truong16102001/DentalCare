@@ -30,7 +30,9 @@ public class SecurityConfig {
                         .requestMatchers("/","/home","/register","/service","/service-details","/service-booking","/booking-success"
                                 ,"/forgot-password","/service","/reset-password"
                                 ,"/login", "/css/**", "/js/**", "/images/**")
-                        .permitAll() // public routes
+                        .permitAll()
+                        .requestMatchers("/admin-manage").hasAuthority("ADMIN") // 👈 THÊM DÒNG NÀY
+                        .anyRequest().authenticated()// public routes
                 )
                 .formLogin(form -> form
                         .loginPage("/login")             // Trang login tùy chỉnh

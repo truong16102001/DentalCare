@@ -3,9 +3,7 @@ package com.example.swp.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity

@@ -8,6 +8,7 @@ import com.example.swp.entity.User;
 import com.example.swp.service.BookingService;
 import com.example.swp.service.DentalCareService;
 import com.example.swp.service.SlotService;
+import com.example.swp.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -28,6 +29,8 @@ public class ServiceController {
     SlotService slotService;
     @Autowired
     BookingService bookingService;
+    @Autowired
+    UserService userService;
 
     @GetMapping("/service")
     public String getServices(
@@ -104,7 +107,9 @@ public class ServiceController {
             session.setAttribute("service", service);
             return "service-booking-step1";
         }
-        User user = (User) session.getAttribute("us");
+        Integer userId = (Integer) session.getAttribute("userId");
+        User user = userService.findByUserId(userId);
+
         List<Booking> bookings;
         if(user != null){
             bookings = dentalCareService.getBookingServicesByUserId(user.getUserId());
@@ -141,7 +146,8 @@ public class ServiceController {
         Service service = (Service) session.getAttribute("service");
 
         // Lấy thông tin người dùng từ session (giả định đã login)
-        User patient = (User) session.getAttribute("us");
+        Integer userId = (Integer) session.getAttribute("userId");
+        User patient = userService.findByUserId(userId);
 
         // Lấy Slot từ DB
         Slot slot = slotService.findById(timeSlotId).orElse(null);
