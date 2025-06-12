@@ -9,6 +9,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -25,10 +26,17 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<Booking> searchBookings(String status, Date registered_time_from, Date registered_time_to) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(registered_time_to);
+        cal.add(Calendar.DATE, 1);
+        Date endOfDay = cal.getTime();
+        cal.setTime(registered_time_from);
+        cal.add(Calendar.DATE, -1);
+        Date startOfDay = cal.getTime();
         if (status == null || status.isEmpty()) {
-            return bookingRepository.findByLastUpdatedTimeBetween(registered_time_from, registered_time_to);
+            return bookingRepository.findByRegisteredTimeBetween(startOfDay, endOfDay);
         }
-        return bookingRepository.findByStatusAndLastUpdatedTimeBetween(status, registered_time_from, registered_time_to);
+        return bookingRepository.findByStatusAndRegisteredTimeBetween(status, startOfDay, endOfDay);
     }
 
     @Override

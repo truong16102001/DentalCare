@@ -7,27 +7,30 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalTime;
-
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "Slots")
-public class Slot {
+@Table(name = "Sessions")
+public class Session {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer slotId;
+    private Integer sessionId;
 
-    private LocalTime startTime;
-
-    private LocalTime endTime;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "shift_id")
+    @ManyToOne
     @JsonManagedReference
-    private Shift shift;
+    @JoinColumn(name = "booking_id")
+    private Booking booking;
 
-    private Boolean isActive;
+    @ManyToOne
+    @JsonManagedReference
+    @JoinColumn(name = "slot_id")
+    private Slot slot;
+
+    @ManyToOne
+    @JsonManagedReference
+    @JoinColumn(name = "schedule_id")
+    private WorkingSchedule schedule;
+
 }

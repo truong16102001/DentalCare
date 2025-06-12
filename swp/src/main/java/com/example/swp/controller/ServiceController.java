@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -108,9 +109,12 @@ public class ServiceController {
             return "service-booking-step1";
         }
         Integer userId = (Integer) session.getAttribute("userId");
-        User user = userService.findByUserId(userId);
-
         List<Booking> bookings;
+        User user = null;
+        if(userId != null){
+            user = userService.findByUserId(userId);
+        }
+
         if(user != null){
             bookings = dentalCareService.getBookingServicesByUserId(user.getUserId());
         }else{
@@ -147,7 +151,10 @@ public class ServiceController {
 
         // Lấy thông tin người dùng từ session (giả định đã login)
         Integer userId = (Integer) session.getAttribute("userId");
-        User patient = userService.findByUserId(userId);
+        User patient = null;
+        if(userId != null){
+            patient = userService.findByUserId(userId);
+        }
 
         // Lấy Slot từ DB
         Slot slot = slotService.findById(timeSlotId).orElse(null);
@@ -164,6 +171,7 @@ public class ServiceController {
                 .note(note)
                 .status("Pending")
                 .lastUpdatedTime(new Date())
+                .registeredTime(new Date())
                 .build();
 
         bookingService.save(booking);

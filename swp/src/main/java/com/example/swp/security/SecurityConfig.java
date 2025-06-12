@@ -34,6 +34,7 @@ public class SecurityConfig {
                         .requestMatchers("/admin-manage").hasAuthority("ADMIN")
                         .requestMatchers("/receptionist-manage").hasAuthority("RECEPTIONIST")
                         .requestMatchers( "/manage-booking", "/update-booking").hasAnyAuthority("RECEPTIONIST", "MANAGER")
+                        .requestMatchers("/manager-manage", "/work-assignment").hasAuthority("MANAGER")
                         .anyRequest().authenticated()// public routes
                 )
                 .formLogin(form -> form

@@ -58,7 +58,7 @@ public class UserController {
         if (session != null) {
             session.invalidate(); // xóa toàn bộ session
         }
-        return "redirect:/login"; // nên redirect thay vì trả về tên view trực tiếp
+        return "redirect:/home"; // nên redirect thay vì trả về tên view trực tiếp
     }
 
     @PostMapping("/editprofile")

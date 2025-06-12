@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Integer> {
-    List<Booking> findByStatusAndLastUpdatedTimeBetween(String status, Date startTime, Date endTime);
+    List<Booking> findByStatusAndRegisteredTimeBetween(String status, Date startTime, Date endTime);
 
-    List<Booking> findByLastUpdatedTimeBetween(Date startTime, Date endTime);
+    List<Booking> findByRegisteredTimeBetween(Date startTime, Date endTime);
 }

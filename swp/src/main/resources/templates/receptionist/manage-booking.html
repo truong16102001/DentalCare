@@ -76,19 +76,20 @@
   </style>
 </head>
 <body>
-<div th:if="${notification != null}"
-     th:classappend="${#strings.contains(notification.toLowerCase(), 'thành công')} ? 'alert alert-success' : 'alert alert-danger'"
-     class="alert alert-dismissible fade show"
-     role="alert"
-     style="position: fixed; z-index: 15; margin-left: 80%; margin-top: -40%;">
-  <strong th:text="${notification}"></strong>
-  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
+
 <div id="main">
   <!-- Header -->
   <th:block th:replace="component/header :: header"></th:block>
 
   <div class="container-fluid" style="margin-top: 100px">
+    <div th:if="${notification != null}"
+         th:classappend="${#strings.contains(notification.toLowerCase(), 'thành công')} ? 'alert alert-success' : 'alert alert-danger'"
+         class="alert alert-dismissible fade show"
+         role="alert"
+         style="position: fixed; z-index: 15; margin-left: 80%; margin-top: -40%;">
+      <strong th:text="${notification}"></strong>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
     <div class="row">
       <h1 style="text-align: center;">Danh Sách Lịch Hẹn</h1>
 
@@ -97,18 +98,20 @@
       <div class="col-md-10">
         <div class="row justify-content-between">
           <div class="col-md-4">
-            <form class="search-bar" th:action="@{/manage-booking}" method="get">
+            <form class="search-bar" th:action="@{/manage-booking}" method="get" onsubmit="return validateDateRange()">
               <div class="input-container">
                 <label for="bookingDateFrom"><b>Đăng ký từ: </b></label>
-                <input id="bookingDateFrom" class="form-control"  type="date" name="bookingDateFrom"
-                       th:value="${bookingDateFrom}" />
+                <input id="bookingDateFrom" class="form-control" type="date" name="bookingDateFrom"
+                       th:value="${bookingDateFrom}" required />
+
                 <label for="bookingDateTo"><b>đến:</b></label>
-                <input id="bookingDateTo" class="form-control"  type="date" name="bookingDateTo"
-                       th:value="${bookingDateTo}" />
+                <input id="bookingDateTo" class="form-control" type="date" name="bookingDateTo"
+                       th:value="${bookingDateTo}" required />
               </div>
-              <input type="hidden" name="status" th:value="${status}"/>
+              <input type="hidden" name="status" th:value="${status}" />
               <button type="submit" class="btn btn-dark">Tìm</button>
             </form>
+
           </div>
 
           <div class="col-md-2" style="margin-right: -530px; font-size: 20px;">
@@ -181,24 +184,43 @@
                 <td th:text="${c.note}"></td>
                 <td th:if="${c.status == 'Approved'}" style="color: blue;">Đã xác nhận</td>
                 <td th:if="${c.status == 'Pending'}">Chờ xác nhận</td>
+                <td th:if="${c.status == 'Completed'}">Đã hoàn thành</td>
                 <td>
                   <div th:if="${c.status == 'Pending'}">
                     <div class="row">
-                      <a th:href="@{/update-booking(bookingId=${c.bookingId}, status='Approved')}"
-                         onclick="return confirm('Xác nhận lịch khám?')"
-                         class="btn btn-success btn-lg active" style="font-size: 12px">Xác nhận</a>
+                      <form th:action="@{/update-booking}" method="post" onsubmit="return confirm('Xác nhận lịch khám?')">
+                        <input type="hidden" name="bookingId" th:value="${c.bookingId}" />
+                        <input type="hidden" name="status" value="Approved" />
+                        <input type="hidden" name="typeSubmit" value="btn" />
+                        <button type="submit" class="btn btn-success btn-lg active" style="font-size: 12px">Xác nhận</button>
+                      </form>
                     </div>
                     <div class="row">
-                      <a th:href="@{/update-booking(bookingId=${c.bookingId}, status='Cancled')}"
-                         onclick="return confirm('Từ chối lịch khám?')"
-                         class="btn btn-danger btn-lg active" style="font-size: 12px">Từ chối</a>
+                      <form th:action="@{/update-booking}" method="post" onsubmit="return confirm('Từ chối lịch khám?')">
+                        <input type="hidden" name="bookingId" th:value="${c.bookingId}" />
+                        <input type="hidden" name="status" value="Canceled" />
+                        <input type="hidden" name="typeSubmit" value="btn" />
+                        <button type="submit" class="btn btn-danger btn-lg active" style="font-size: 12px">Từ chối</button>
+                      </form>
                     </div>
                   </div>
 
                   <div th:if="${c.status == 'Approved'}">
-                    <a th:href="@{/update-booking(bookingId=${c.bookingId}, status='Completed')}"
-                       onclick="return confirm('Xác nhận lịch khám đã kết thúc?')"
-                       class="btn btn-success btn-lg active" style="font-size: 12px">Hoàn thành</a>
+                    <form th:action="@{/update-booking}" method="post" onsubmit="return confirm('Xác nhận lịch khám đã kết thúc?')">
+                      <input type="hidden" name="bookingId" th:value="${c.bookingId}" />
+                      <input type="hidden" name="status" value="Completed" />
+                      <input type="hidden" name="typeSubmit" value="btn" />
+                      <button type="submit" class="btn btn-success btn-lg active" style="font-size: 12px">Hoàn thành</button>
+                    </form>
+                  </div>
+
+                  <div th:if="${session.roleId == 2 && c.status == 'Approved'}">
+                    <form th:action="@{/update-booking}" method="post" onsubmit="return confirm('Xác nhận lịch khám đã kết thúc?')">
+                      <input type="hidden" name="bookingId" th:value="${c.bookingId}" />
+                      <input type="hidden" name="status" value="Completed" />
+                      <input type="hidden" name="typeSubmit" value="btn" />
+                      <button type="submit" class="btn btn-primary btn-lg active" style="font-size: 12px">Tạo ca khám</button>
+                    </form>
                   </div>
                 </td>
               </tr>
@@ -339,7 +361,7 @@
   if (status === 'Pending') {
     actionHtml += `
       <button type="button" class="btn btn-success" onclick="submitFormWithStatus('Approved')">Xác nhận</button>
-      <button type="button" class="btn btn-danger" onclick="submitFormWithStatus('Cancled')">Từ chối</button>
+      <button type="button" class="btn btn-danger" onclick="submitFormWithStatus('Canceled')">Từ chối</button>
     `;
   } else if (status === 'Approved') {
     actionHtml += `
@@ -360,7 +382,7 @@ function enableEdit() {
   const footer = document.getElementById("actionButtons");
   footer.innerHTML = `
     <button type="button" class="btn btn-success" onclick="submitFormWithStatus('Approved')">Lưu và xác nhận</button>
-    <button type="button" class="btn btn-danger" onclick="submitFormWithStatus('Cancled')">Từ chối lịch</button>
+    <button type="button" class="btn btn-danger" onclick="submitFormWithStatus('Canceled')">Từ chối lịch</button>
   `;
 }
 
@@ -370,7 +392,7 @@ function submitFormWithStatus(status) {
     case 'Approved':
       confirmMsg = 'Bạn có chắc muốn xác nhận lịch hẹn này?';
       break;
-    case 'Cancled':
+    case 'Canceled':
       confirmMsg = 'Bạn có chắc muốn từ chối lịch hẹn này?';
       break;
     case 'Completed':
@@ -411,6 +433,18 @@ function submitFormWithStatus(status) {
               $el.classList.remove('show');
           }, 3000);
       });
+  }
+</script>
+<script>
+  function validateDateRange() {
+    const from = document.getElementById('bookingDateFrom').value;
+    const to = document.getElementById('bookingDateTo').value;
+
+    if (from && to && from > to) {
+      alert("Ngày bắt đầu phải trước ngày kết thúc.");
+      return false; // Ngăn form submit
+    }
+    return true;
   }
 </script>
 

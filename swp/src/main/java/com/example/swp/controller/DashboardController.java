@@ -10,4 +10,10 @@ public class DashboardController {
     ) {
         return "receptionist/receptionist-manage";
     }
+
+    @GetMapping("/manager-manage")
+    public String getManagerManagePage(
+    ) {
+        return "manager/manager-manage";
+    }
 }

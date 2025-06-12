@@ -86,7 +86,7 @@
         <!--        <ul class="d-flex justify-content-between w-100 align-items-center">-->
 
         <!-- MIDDLE NAVIGATION -->
-        <ul th:if="${session.roleId == 5}" class="navbar-nav d-flex gap-3 ms-5">
+        <ul th:if="${session.userId == null or session.roleId == 5}" class="navbar-nav d-flex gap-3 ms-5">
           <li class="nav-item">
             <a class="nav-link" th:classappend="${active == 1} ? 'active'" th:href="@{/home}">
               <b>Trang chủ</b>

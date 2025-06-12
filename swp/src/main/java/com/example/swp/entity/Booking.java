@@ -31,8 +31,8 @@ public class Booking {
 
     @ManyToOne
     @JsonManagedReference
-    @JoinColumn(name = "recipient_id")
-    private User recipient;
+    @JoinColumn(name = "updated_user_id")
+    private User updatedUser;
 
     @Column(length = 200)
     private String patientName;
@@ -63,6 +63,9 @@ public class Booking {
 
     @Column(length = 500)
     private String note;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date registeredTime;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastUpdatedTime;
