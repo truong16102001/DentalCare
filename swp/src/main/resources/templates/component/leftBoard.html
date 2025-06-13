@@ -77,10 +77,6 @@
       <ul class="nav-ul nav navbar-pills flex-column">
 
         <div th:if="${session.roleId == 1}">
-          <a class="nav-link" th:classappend="${session.p == 0} ? 'active': ''" th:href="@{/manage(p=0)}">
-            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-            Thống kê
-          </a>
           <a class="nav-link" th:classappend="${session.p == 5} ? 'active': ''" th:href="@{/manage-user(p=5)}">
             <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
             Quản lý người dùng
@@ -91,14 +87,6 @@
           <a class="nav-link" th:classappend="${session.p == 3} ? 'active': ''" th:href="@{/manage-booking(p=3)}">
             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
             Quản lý lịch hẹn
-          </a>
-          <a class="nav-link" th:classappend="${session.p == 2} ? 'active': ''" th:href="@{/manage-employee(p=2)}">
-            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-            Quản lý nhân viên
-          </a>
-          <a class="nav-link" th:classappend="${session.p == 6} ? 'active' : ''" th:href="@{/manage-report(p=6)}">
-            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-            Quản lý hồ sơ khám bệnh
           </a>
           <a class="nav-link" th:classappend="${session.p == 7} ? ' active' : ''" th:href="@{/work-assignment(p=7)}">
             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>

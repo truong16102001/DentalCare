@@ -16,4 +16,16 @@ public class DashboardController {
     ) {
         return "manager/manager-manage";
     }
+
+    @GetMapping("/admin-manage")
+    public String getAdminManagePage(
+    ) {
+        return "admin/admin-manage";
+    }
+
+    @GetMapping("/doctor-manage")
+    public String getDoctorManagePage(
+    ) {
+        return "doctor/doctor-manage";
+    }
 }

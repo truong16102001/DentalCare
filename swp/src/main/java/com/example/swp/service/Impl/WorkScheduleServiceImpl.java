@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,5 +26,10 @@ public class WorkScheduleServiceImpl implements WorkScheduleService {
     @Override
     public WorkingSchedule save(WorkingSchedule w) {
         return  workingScheduleRepository.save(w);
+    }
+
+    @Override
+    public Optional<WorkingSchedule> findById(Integer wcId) {
+        return workingScheduleRepository.findById(wcId);
     }
 }

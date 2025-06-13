@@ -1,0 +1,28 @@
+- Khi vào trang Service sẽ hiển thị service, có thể sort hay search theo tên hoặc description. Khi chọn 1 service trong danh sách sẽ hiển thị chi tiết thông tin service đó và Bên dưới là danh sách service khác liên quan
+- Khi chọn đặt lịch sẽ yêu cầu nhập thông tin của bệnh nhân, Nếu người dùng đã đăng nhập mặc định sẽ lấy thông tin của người dùng để fill vào các ô input và có thể sửa lại (còn chưa đăng nhập thì người dùng sẽ phải tự điền)
+- Sau khi ấn nút TIếp tục trong trang điền thông tin bệnh nhân sẽ hiển thị thông báo confirm để người dùng chắc chắn với thông tin họ nhập, khi họ click OK thì sẽ chuyển tới Màn chọn ngày khám và khung giờ khám
+- Trong màn chọn ngày khám và khung giờ khám, sẽ kiểm tra xem người dùng đã đăng ký ngày khám và khung giờ khám đó chưa, (nếu người dùng đã đăng nhập thì kiểm tra bằng patient_id, còn chưa đăng nhập thì kiểm tra tồn tại = phonenumber)
+	nếu đã đăng ký rồi thì sẽ hiển thị thông báo confirm lại là bạn đã đăng ký dịch vụ ... ngày ... khung giờ. Bạn vẫn muốn tiếp tục? 
+	(Mục đích của thông báo này để người dùng kiểm tra lại thông tin khung giờ ngày khám họ đăng ký còn vẫn cho họ đăng ký vì có thể họ đăng ký lịch cho người khác dịch vụ đó, ví dụ ông bà bố mẹ những người ít biết về công nghệ)
+- Sau khi người dùng ấn đặt lịch thì sẽ chuyển sang trang đăng ký thành công và chờ nhân viên phòng khám liên hệ qua phonenumber trong ít phút tới để xác nhận?
+
+=====
+Chức năng phase 1: Đăng nhập, đăng ký, quên mật khẩu, đổi mật khẩu, update profile, search and view Service, đăng ký service 
+----------------------
+Chức năng phase 2: 
+Quản lý user (admin): Thêm, sửa, xóa tài khoản
+Quản lý lịch hẹn (manager hoặc receptionist): Search and filter lịch hẹn, View chi tiết lịch hẹn, update thông tin bệnh nhân trong lịch hẹn, Chấp nhận/Từ chối/Đánh dấu hoàn thành lịch hẹn (sau khi gọi điện xác nhận), Tạo ca khám cho bác sĩ
+Phân công Bác sĩ (manager): Xem các ca trực(tại phòng nào, ca nào) của bác sĩ trong 1 ngày chọn, Phân công lịch trực cho bác sĩ theo ca
+
+Luồng sẽ là:
+- Sau khi bệnh nhân đăng ký lịch hẹn trên hệ thống xong, receptionist/manager sẽ gọi điện thể xác nhận rồi đánh dấu Chấp nhận/từ chối lịch hẹn trong trang Quản Lý Lịch Hẹn
+- Hàng ngày quản lý sẽ vào để phân công bác sĩ trực ở phòng khám A và khung giờ B (trang Phân Công bác sĩ)
+- Khi bệnh nhân tới khám, manager/receptionist sẽ search thông tin lịch hẹn, xem chi tiết thông tin lịch hẹn để xác nhận và sửa lại thông tin nếu có sai, sau đó tiến hành Tạo ca khám cho bệnh nhân vào phòng A khung giờ B của bác sĩ C (lịch này đã được quản lý tạo đầu ngày hoặc tạo trước đó)
+- Ngoài ra có thêm module quản lý người dùng của Admin
+
+-------
+Phase 3:
+- Sau khi bác sĩ khám xong sẽ tiến hành nhập kết quả khám, tạo đơn thuốc cho kết quả khám
+- Khách hàng (đã có tài khoản) xem thông tin kết quả khám và thông tin lịch hẹn của họ
+- Thanh toán
+- Thống kê

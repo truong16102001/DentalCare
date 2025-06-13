@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -54,9 +55,7 @@ public class Booking {
     @JoinColumn(name = "slot_id")
     private Slot slot;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Temporal(TemporalType.DATE)
-    private Date appointmentDate;
+    private LocalDate appointmentDate;
 
     @Column(length = 20)
     private String status;

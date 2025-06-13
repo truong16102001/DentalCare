@@ -32,7 +32,7 @@
         </p>
         <p>
           Bạn đã đặt lịch vào ngày
-          <strong th:text="${#dates.format(booking.appointmentDate, 'dd/MM/yyyy')}"></strong>
+          <strong th:text="${booking.appointmentDate}"></strong>
           lúc
           <strong th:text="${booking.slot.startTime} + ' - ' + ${booking.slot.endTime}"></strong>.
         </p>

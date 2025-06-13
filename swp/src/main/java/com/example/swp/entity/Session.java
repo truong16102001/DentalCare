@@ -25,11 +25,6 @@ public class Session {
 
     @ManyToOne
     @JsonManagedReference
-    @JoinColumn(name = "slot_id")
-    private Slot slot;
-
-    @ManyToOne
-    @JsonManagedReference
     @JoinColumn(name = "schedule_id")
     private WorkingSchedule schedule;
 

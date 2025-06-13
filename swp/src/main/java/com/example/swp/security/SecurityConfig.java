@@ -33,8 +33,9 @@ public class SecurityConfig {
                         .permitAll()
                         .requestMatchers("/admin-manage").hasAuthority("ADMIN")
                         .requestMatchers("/receptionist-manage").hasAuthority("RECEPTIONIST")
-                        .requestMatchers( "/manage-booking", "/update-booking").hasAnyAuthority("RECEPTIONIST", "MANAGER")
+                        .requestMatchers( "/manage-booking", "/update-booking","/create-session").hasAnyAuthority("RECEPTIONIST", "MANAGER")
                         .requestMatchers("/manager-manage", "/work-assignment").hasAuthority("MANAGER")
+                        .requestMatchers("/admin-manage", "/manage-user", "/create-user", "/update-user", "/delete-user").hasAuthority("ADMIN")
                         .anyRequest().authenticated()// public routes
                 )
                 .formLogin(form -> form

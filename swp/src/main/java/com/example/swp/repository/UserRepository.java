@@ -16,4 +16,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     boolean existsByPhoneNumber(String phoneNumber);
     User findByUserId(int userId);
     List<User> findByRole(Role role);
+    List<User> findByRole_RoleId(Integer roleId);
+    List<User> findByRole_RoleIdNot(Integer roleId);
+    List<User> findByEmailContainingAndRole_RoleId(String email, Integer roleId);
+    List<User> findByEmailContainingAndRole_RoleIdNot(String email, Integer roleId);
+
 }

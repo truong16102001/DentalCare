@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -141,7 +142,7 @@ public class ServiceController {
             @RequestParam(required = false) String phone,
             @RequestParam(required = false) String address,
             @RequestParam(required = false) String note,
-            @RequestParam(value = "bookingDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date appointmentDate,
+            @RequestParam(value = "bookingDate") LocalDate appointmentDate,
             @RequestParam(value = "timeSlot") Integer timeSlotId,
             HttpSession session,
             Model model

@@ -99,14 +99,14 @@ public class BookingController {
                 booking.setLastUpdatedTime(new Date());
                 booking.setUpdatedUser(updatedUser);
                 // Format ngày hẹn
-                String formattedDate = sdf.format(booking.getAppointmentDate());
+              
                 String time = booking.getSlot().getStartTime().toString();
                 // Gửi email xác nhận
                 emailService.sendSimpleMail(
                         booking.getEmail(),
                         "Đăng ký lịch thành công",
                         "Xin chào!\nBạn đã đăng ký dịch vụ " + booking.getService().getServiceName() +
-                                " thành công.\nHẹn gặp bạn tại DentalCare vào " + formattedDate + ", lúc " + time + "."
+                                " thành công.\nHẹn gặp bạn tại DentalCare vào " + booking.getAppointmentDate() + ", lúc " + time + "."
                 );
 
                 // Lưu lại thông tin booking

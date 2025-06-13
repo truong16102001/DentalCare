@@ -288,7 +288,7 @@
       const bookings = [
           /*[# th:each="b, iter : ${bookings}" ]*/
           {
-              bookingDate: [[${#dates.format(b.appointmentDate, 'yyyy-MM-dd')}]],
+              bookingDate: [[${b.appointmentDate}]],
               timeSlot: [[${b.slot.slotId}]],
               fullName: [[${'"' + b.patientName + '"'}]],
               dob: [[${'"' + #dates.format(b.dob, 'yyyy-MM-dd') + '"'}]],

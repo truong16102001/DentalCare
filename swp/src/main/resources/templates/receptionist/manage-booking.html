@@ -160,7 +160,7 @@
                      th:data-booking-id="${c.bookingId}"
                      th:data-service-name="${c.service.serviceName}"
                      th:data-service-price="${c.service.price}"
-                     th:data-appointment-date="${#dates.format(c.appointmentDate, 'yyyy-MM-dd')}"
+                     th:data-appointment-date="${c.appointmentDate}"
                      th:data-slot-time="${c.slot.startTime + ' - ' + c.slot.endTime}"
                      th:data-patient-name="${c.patientName}"
                      th:data-dob="${#dates.format(c.dob, 'yyyy-MM-dd')}"
@@ -185,6 +185,7 @@
                 <td th:if="${c.status == 'Approved'}" style="color: blue;">Đã xác nhận</td>
                 <td th:if="${c.status == 'Pending'}">Chờ xác nhận</td>
                 <td th:if="${c.status == 'Completed'}">Đã hoàn thành</td>
+                <td th:if="${c.status == 'Processing'}">Đang khám</td>
                 <td>
                   <div th:if="${c.status == 'Pending'}">
                     <div class="row">
@@ -205,7 +206,7 @@
                     </div>
                   </div>
 
-                  <div th:if="${c.status == 'Approved'}">
+                  <div th:if="${c.status == 'Processing'}">
                     <form th:action="@{/update-booking}" method="post" onsubmit="return confirm('Xác nhận lịch khám đã kết thúc?')">
                       <input type="hidden" name="bookingId" th:value="${c.bookingId}" />
                       <input type="hidden" name="status" value="Completed" />
@@ -214,11 +215,9 @@
                     </form>
                   </div>
 
-                  <div th:if="${session.roleId == 2 && c.status == 'Approved'}">
-                    <form th:action="@{/update-booking}" method="post" onsubmit="return confirm('Xác nhận lịch khám đã kết thúc?')">
+                  <div th:if="${c.status == 'Approved'}">
+                    <form th:action="@{/create-session}" method="get" >
                       <input type="hidden" name="bookingId" th:value="${c.bookingId}" />
-                      <input type="hidden" name="status" value="Completed" />
-                      <input type="hidden" name="typeSubmit" value="btn" />
                       <button type="submit" class="btn btn-primary btn-lg active" style="font-size: 12px">Tạo ca khám</button>
                     </form>
                   </div>
@@ -358,6 +357,7 @@
 
   // Render nút theo trạng thái
   let actionHtml = '';
+  if (status !== "Completed") {
   if (status === 'Pending') {
     actionHtml += `
       <button type="button" class="btn btn-success" onclick="submitFormWithStatus('Approved')">Xác nhận</button>
@@ -370,7 +370,10 @@
   }
 
   document.getElementById("actionButtons").innerHTML = actionHtml;
-
+}else{
+const footer = document.getElementById("actionButtons");
+    footer.innerHTML = '';
+}
   // Hiển thị modal
   $('#bookingDetailModal').modal('show');
 }
