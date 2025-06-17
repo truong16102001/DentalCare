@@ -95,9 +95,9 @@
         </div>
 
         <div th:if="${session.roleId == 3}">
-          <a class="nav-link" th:classappend="${session.p == 1} ? 'active': ''" th:href="@{/schedule(p=3)}">
+          <a class="nav-link" th:classappend="${session.p == 3} ? 'active': ''" th:href="@{/doctor-schedule(p=3)}">
             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-            Xem lịch hẹn cá nhân
+            Lịch làm việc
           </a>
         </div>
 
@@ -105,6 +105,13 @@
           <a class="nav-link" th:classappend="${session.p == 3} ? 'active': ''" th:href="@{/manage-booking(p=3)}">
             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
             Quản lý lịch hẹn
+          </a>
+        </div>
+
+        <div th:if="${session.roleId == 4 ||session.roleId == 2}">
+          <a class="nav-link"  th:href="@{/manage-invoice}">
+            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+            Quản lý hóa đơn
           </a>
         </div>
       </ul>

@@ -85,6 +85,129 @@ INSERT INTO `images` VALUES (1,'/images/khamtongquat1.png'),(2,'/images/caovoira
 UNLOCK TABLES;
 
 --
+-- Table structure for table `invoices`
+--
+
+DROP TABLE IF EXISTS `invoices`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `invoices` (
+  `invoice_id` int NOT NULL AUTO_INCREMENT,
+  `created_date` date DEFAULT NULL,
+  `created_time` datetime(6) DEFAULT NULL,
+  `paid_time` datetime(6) DEFAULT NULL,
+  `pay_method` varchar(255) DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL,
+  `total_fee` decimal(38,2) DEFAULT NULL,
+  `session_id` int DEFAULT NULL,
+  PRIMARY KEY (`invoice_id`),
+  UNIQUE KEY `UKieprf1q2oymsua39y89sp0v0w` (`session_id`),
+  CONSTRAINT `FKpyk1gld13fn87pxq0xgfysnhd` FOREIGN KEY (`session_id`) REFERENCES `sessions` (`session_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `invoices`
+--
+
+LOCK TABLES `invoices` WRITE;
+/*!40000 ALTER TABLE `invoices` DISABLE KEYS */;
+INSERT INTO `invoices` VALUES (1,'2025-06-17','2025-06-17 09:01:50.510000','2025-06-17 10:02:57.650000',NULL,'Paid',208000.00,1),(2,'2025-06-17','2025-06-17 09:03:30.730000','2025-06-17 10:06:14.996000',NULL,'Paid',310600.00,2);
+/*!40000 ALTER TABLE `invoices` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `medicines`
+--
+
+DROP TABLE IF EXISTS `medicines`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `medicines` (
+  `medicine_id` varchar(255) NOT NULL,
+  `image` longtext,
+  `ingredients` varchar(1000) DEFAULT NULL,
+  `manufacturer` varchar(200) DEFAULT NULL,
+  `medicine_name` varchar(200) DEFAULT NULL,
+  `price` int DEFAULT NULL,
+  `remaining_quantity` int DEFAULT NULL,
+  `unit` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`medicine_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `medicines`
+--
+
+LOCK TABLES `medicines` WRITE;
+/*!40000 ALTER TABLE `medicines` DISABLE KEYS */;
+INSERT INTO `medicines` VALUES ('MED001','https://example.com/images/med001.jpg','Paracetamol 500mg','ABC Pharma','Paracetamol',2000,100,'viên'),('MED002','https://example.com/images/med002.jpg','Ibuprofen 400mg','DEF Pharma','Ibuprofen',3000,80,'viên'),('MED003','https://example.com/images/med003.jpg','Amoxicillin 500mg','GHI Pharma','Amoxicillin',3500,120,'viên'),('MED004','https://example.com/images/med004.jpg','Vitamin C 1000mg','JKL Pharma','Vitamin C',2500,150,'viên'),('MED005','https://example.com/images/med005.jpg','Cefuroxime 250mg','MNO Pharma','Cefuroxime',4000,60,'viên'),('MED006','https://example.com/images/med006.jpg','Loratadine 10mg','PQR Pharma','Loratadine',2200,90,'viên'),('MED007','https://example.com/images/med007.jpg','Aspirin 81mg','STU Pharma','Aspirin',1800,70,'viên'),('MED008','https://example.com/images/med008.jpg','Omeprazole 20mg','VWX Pharma','Omeprazole',3200,110,'viên'),('MED009','https://example.com/images/med009.jpg','Metformin 500mg','YZA Pharma','Metformin',2800,95,'viên'),('MED010','https://example.com/images/med010.jpg','Simvastatin 20mg','BCD Pharma','Simvastatin',3100,85,'viên');
+/*!40000 ALTER TABLE `medicines` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `patient_report`
+--
+
+DROP TABLE IF EXISTS `patient_report`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `patient_report` (
+  `patient_report_id` int NOT NULL AUTO_INCREMENT,
+  `diagnosis` varchar(500) DEFAULT NULL,
+  `doctor_note` varchar(500) DEFAULT NULL,
+  `last_updated_time` datetime(6) DEFAULT NULL,
+  `treatment_method` varchar(500) DEFAULT NULL,
+  `session_id` int DEFAULT NULL,
+  PRIMARY KEY (`patient_report_id`),
+  UNIQUE KEY `UKi17qyjvisst982ev35jfu0q8b` (`session_id`),
+  CONSTRAINT `FKtpvgc99al75bo7n94shkqvvwu` FOREIGN KEY (`session_id`) REFERENCES `sessions` (`session_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `patient_report`
+--
+
+LOCK TABLES `patient_report` WRITE;
+/*!40000 ALTER TABLE `patient_report` DISABLE KEYS */;
+INSERT INTO `patient_report` VALUES (5,'suif','aaa','2025-06-17 09:01:50.482000','aa',1),(6,'giang mai','nono','2025-06-17 09:03:30.696000','no no',2);
+/*!40000 ALTER TABLE `patient_report` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `report_medicine`
+--
+
+DROP TABLE IF EXISTS `report_medicine`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `report_medicine` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `note` varchar(1000) DEFAULT NULL,
+  `medicine_id` varchar(255) NOT NULL,
+  `patient_report_id` int NOT NULL,
+  `quantity` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK2twypbignvwgot9vk4tfrs2xp` (`medicine_id`),
+  KEY `FKibe95b9rlfq22s1hqkp15nfha` (`patient_report_id`),
+  CONSTRAINT `FK2twypbignvwgot9vk4tfrs2xp` FOREIGN KEY (`medicine_id`) REFERENCES `medicines` (`medicine_id`),
+  CONSTRAINT `FKibe95b9rlfq22s1hqkp15nfha` FOREIGN KEY (`patient_report_id`) REFERENCES `patient_report` (`patient_report_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `report_medicine`
+--
+
+LOCK TABLES `report_medicine` WRITE;
+/*!40000 ALTER TABLE `report_medicine` DISABLE KEYS */;
+INSERT INTO `report_medicine` VALUES (10,'a','MED001',5,1),(11,'b','MED002',5,2),(12,'fff','MED005',6,1),(13,'aaaaa','MED006',6,3);
+/*!40000 ALTER TABLE `report_medicine` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `roles`
 --
 
@@ -200,6 +323,8 @@ CREATE TABLE `sessions` (
   `booking_id` int DEFAULT NULL,
   `schedule_id` int DEFAULT NULL,
   `slot_id` int DEFAULT NULL,
+  `session_date` date DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`session_id`),
   KEY `FKjdx4s91np9yr5nhstlc3olbs1` (`booking_id`),
   KEY `FKhwfxl01n3dq5v4k9lktvrw1go` (`schedule_id`),
@@ -216,7 +341,7 @@ CREATE TABLE `sessions` (
 
 LOCK TABLES `sessions` WRITE;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
-INSERT INTO `sessions` VALUES (1,3,1,NULL),(2,5,4,NULL);
+INSERT INTO `sessions` VALUES (1,3,1,1,'2025-06-12','Ended'),(2,5,3,2,'2025-06-12','Ended');
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -372,7 +497,7 @@ CREATE TABLE `working_schedules` (
 
 LOCK TABLES `working_schedules` WRITE;
 /*!40000 ALTER TABLE `working_schedules` DISABLE KEYS */;
-INSERT INTO `working_schedules` VALUES (1,'2025-06-12',_binary '','2025-06-12 00:00:00.000000',3,1,1),(2,'2025-06-12',_binary '','2025-06-12 10:47:07.507000',5,2,2),(3,'2025-06-12',_binary '','2025-06-12 10:48:39.550000',6,3,1),(4,'2025-06-13',_binary '','2025-06-13 07:47:38.203000',3,1,1),(5,'2025-06-13',_binary '','2025-06-13 07:47:41.304000',3,2,2);
+INSERT INTO `working_schedules` VALUES (1,'2025-06-12',_binary '','2025-06-12 00:00:00.000000',3,1,1),(2,'2025-06-12',_binary '','2025-06-12 10:47:07.507000',5,2,2),(3,'2025-06-12',_binary '','2025-06-12 10:48:39.550000',3,3,1),(4,'2025-06-13',_binary '','2025-06-13 07:47:38.203000',3,1,1),(5,'2025-06-13',_binary '','2025-06-13 07:47:41.304000',3,2,2);
 /*!40000 ALTER TABLE `working_schedules` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -385,4 +510,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-06-13 16:16:17
+-- Dump completed on 2025-06-17 17:09:45

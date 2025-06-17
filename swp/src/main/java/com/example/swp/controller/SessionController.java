@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Set;
@@ -75,6 +76,8 @@ public class SessionController {
             Session newSession = new Session();
             newSession.setBooking(booking);
             newSession.setSchedule(schedule);
+            newSession.setSessionDate(LocalDate.now());
+            newSession.setStatus("Processing");
             sessionService.save(newSession);
             booking.setStatus("Processing");
             bookingService.save(booking);

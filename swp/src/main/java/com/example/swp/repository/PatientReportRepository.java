@@ -1,14 +1,14 @@
 package com.example.swp.repository;
 
-import com.example.swp.entity.Room;
+import com.example.swp.entity.PatientReport;
 import com.example.swp.entity.Session;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
-public interface SessionRepository extends JpaRepository<Session, Integer> {
-    List<Session> findBySessionDate(LocalDate date);
+public interface PatientReportRepository extends JpaRepository<PatientReport, Integer> {
+    Optional<PatientReport> findBySession(Session session);
 }
