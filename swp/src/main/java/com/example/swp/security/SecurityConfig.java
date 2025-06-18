@@ -31,12 +31,12 @@ public class SecurityConfig {
                                 ,"/forgot-password","/service","/reset-password"
                                 ,"/login", "/css/**", "/js/**", "/images/**")
                         .permitAll()
-                        .requestMatchers("/admin-manage").hasAuthority("ADMIN")
+                        .requestMatchers("/admin-manage", "/manage-user", "/create-user", "/update-user", "/delete-user").hasAuthority("ADMIN")
                         .requestMatchers("/receptionist-manage").hasAuthority("RECEPTIONIST")
                         .requestMatchers( "/manage-booking", "/update-booking","/create-session","/manage-invoice", "/update-invoice").hasAnyAuthority("RECEPTIONIST", "MANAGER")
                         .requestMatchers("/manager-manage", "/work-assignment").hasAuthority("MANAGER")
-                        .requestMatchers("/admin-manage", "/manage-user", "/create-user", "/update-user", "/delete-user").hasAuthority("ADMIN")
                         .requestMatchers("/doctor-manage", "/doctor-schedule","/schedule-details", "/create-report").hasAuthority("DOCTOR")
+                        .requestMatchers("/booking-history", "/delete-booking").hasAuthority("GUEST")
                         .anyRequest().authenticated()// public routes
                 )
                 .formLogin(form -> form

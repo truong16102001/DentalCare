@@ -13,4 +13,6 @@ public interface BookingService {
     List<Booking> searchBookings(String status, Date registered_time_from, Date registered_time_to);
     Optional<Booking> findById(Integer bookingId);
     void delete(Booking booking);
+    List<Booking> searchByPatient(User u);
+    List<Booking> searchByPhoneNumber(String phone);
 }

@@ -16,9 +16,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 public class BookingController {
@@ -99,7 +101,7 @@ public class BookingController {
                 booking.setLastUpdatedTime(new Date());
                 booking.setUpdatedUser(updatedUser);
                 // Format ngày hẹn
-              
+
                 String time = booking.getSlot().getStartTime().toString();
                 // Gửi email xác nhận
                 emailService.sendSimpleMail(
@@ -126,6 +128,39 @@ public class BookingController {
             session.setAttribute("notification", "Cập nhật thành công. Kết quả xác nhận đã gửi tới email: " + booking.getEmail());
         }
 
+        return "redirect:" + session.getAttribute("historyUrl");
+    }
+
+    @GetMapping("/booking-history")
+    public String getBookingHistory(
+            @RequestParam(required = false) String status,
+            Model model,
+            HttpSession session
+    ) {
+        Integer userId = (Integer) session.getAttribute("userId");
+        User u = userService.findByUserId(userId);
+        List<Booking> bookings = bookingService.searchByPhoneNumber(u.getPhoneNumber());
+        // Nếu có truyền status và không phải "All", thì lọc theo status
+        if (status != null && !status.equalsIgnoreCase("All")) {
+            String finalStatus = status;
+            bookings = bookings.stream()
+                    .filter(b -> finalStatus.equalsIgnoreCase(b.getStatus()))
+                    .collect(Collectors.toList());
+        }
+        if (status == null) status = "All";
+        model.addAttribute("bookings", bookings);
+        model.addAttribute("status", status); // nếu bạn dùng để set lại filter trên giao diện
+        session.setAttribute("historyUrl", "/booking-history?status=" + status);
+        return "booking-history";
+    }
+
+    @PostMapping("/delete-booking")
+    public String deleteBookingInfo(@RequestParam(value = "bookingId", required = false) Integer bookingId, HttpSession session) {
+        Booking booking = bookingService.findById(bookingId).orElse(null);
+        if (booking != null) {
+            bookingService.delete(booking);
+            session.setAttribute("notification", "Hủy lịch hẹn thành công.");
+        }
         return "redirect:" + session.getAttribute("historyUrl");
     }
 

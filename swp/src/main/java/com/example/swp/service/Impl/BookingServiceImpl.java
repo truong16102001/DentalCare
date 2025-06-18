@@ -1,6 +1,7 @@
 package com.example.swp.service.Impl;
 
 import com.example.swp.entity.Booking;
+import com.example.swp.entity.User;
 import com.example.swp.repository.BookingRepository;
 import com.example.swp.service.BookingService;
 import lombok.AccessLevel;
@@ -47,5 +48,15 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public void delete(Booking booking) {
         bookingRepository.delete(booking);
+    }
+
+    @Override
+    public List<Booking> searchByPatient(User u) {
+        return bookingRepository.findByPatient(u);
+    }
+
+    @Override
+    public List<Booking> searchByPhoneNumber(String phone) {
+        return bookingRepository.findByPhoneNumber(phone);
     }
 }

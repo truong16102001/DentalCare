@@ -1,10 +1,7 @@
 package com.example.swp.controller;
 
 import com.example.swp.entity.*;
-import com.example.swp.service.InvoiceService;
-import com.example.swp.service.PatientReportService;
-import com.example.swp.service.ReportMedicineService;
-import com.example.swp.service.SessionService;
+import com.example.swp.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +26,10 @@ public class InvoiceController {
     PatientReportService patientReportService;
     @Autowired
     ReportMedicineService reportMedicineService;
+    @Autowired
+    BookingService bookingService;
+    @Autowired
+    UserService userService;
 
     @GetMapping("/manage-invoice")
     public String getUpdateReportPage(Model model, HttpSession session,
@@ -128,6 +129,13 @@ public class InvoiceController {
         invoice.setPaidTime(new Date());
         invoice.setTotalFee(BigDecimal.valueOf(Long.parseLong(totalFee)));
         invoiceService.save(invoice);
+        Booking booking = invoice.getSession().getBooking();
+        Integer userId = (Integer) session.getAttribute("userId");
+        User u = userService.findByUserId(userId);
+        booking.setStatus("Completed");
+        booking.setUpdatedUser(u);
+        booking.setLastUpdatedTime(new Date());
+        bookingService.save(booking);
         return "redirect:"+session.getAttribute("historyUrl");
     }
 }
