@@ -88,6 +88,10 @@
             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
             Quản lý lịch hẹn
           </a>
+          <a class="nav-link" th:href="@{/medicine-manage}">
+            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+            Quản lý thuốc
+          </a>
           <a class="nav-link" th:classappend="${session.p == 7} ? ' active' : ''" th:href="@{/work-assignment(p=7)}">
             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
             Phân công bác sĩ

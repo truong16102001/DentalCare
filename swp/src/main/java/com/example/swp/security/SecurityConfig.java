@@ -34,7 +34,7 @@ public class SecurityConfig {
                         .requestMatchers("/admin-manage", "/manage-user", "/create-user", "/update-user", "/delete-user").hasAuthority("ADMIN")
                         .requestMatchers("/receptionist-manage").hasAuthority("RECEPTIONIST")
                         .requestMatchers( "/manage-booking", "/update-booking","/create-session","/manage-invoice", "/update-invoice").hasAnyAuthority("RECEPTIONIST", "MANAGER")
-                        .requestMatchers("/manager-manage", "/work-assignment").hasAuthority("MANAGER")
+                        .requestMatchers("/manager-manage", "/work-assignment", "/medicine-manage", "/delete-medicine", "/update-medicine", "/create-medicine").hasAuthority("MANAGER")
                         .requestMatchers("/doctor-manage", "/doctor-schedule","/schedule-details", "/create-report").hasAuthority("DOCTOR")
                         .requestMatchers("/booking-history", "/delete-booking").hasAuthority("GUEST")
                         .anyRequest().authenticated()// public routes

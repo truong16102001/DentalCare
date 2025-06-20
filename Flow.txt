@@ -25,5 +25,10 @@ Phase 3:
 - Sau khi bác sĩ khám xong sẽ tiến hành nhập kết quả khám, tạo đơn thuốc cho kết quả khám, ngoài ra nếu kết quả đã được nhập thì chỉ có thể chỉnh sửa kết quả khi mà chưa thanh toán (nếu đã thanh toán thì chỉ được xem không update được)
 - Receptionist tiến hành xác nhận và Thanh toán sau khi bác sĩ nhập kết quả kết thúc phiên khám
 - Khách hàng (đã có tài khoản) xem thông tin kết quả khám và thông tin lịch hẹn của họ
-- Thống kê
+- Quản lý thuốc (account Manager): Search and CRUD thuốc
+
+--------------------------------
+Phase 4: (tuần tới)
 - Take attendance
+- Thống kê
+

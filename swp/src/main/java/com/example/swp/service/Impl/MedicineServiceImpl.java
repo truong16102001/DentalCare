@@ -30,4 +30,9 @@ public class MedicineServiceImpl implements MedicineService {
     public Optional<Medicine> findById(String medicineId) {
         return medicineRepository.findById(medicineId);
     }
+
+    @Override
+    public Medicine save(Medicine medicine) {
+        return medicineRepository.save(medicine);
+    }
 }

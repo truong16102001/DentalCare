@@ -9,4 +9,6 @@ public interface MedicineService {
     List<Medicine> findAll();
     List<Medicine> searchByName(String name);
     Optional<Medicine> findById(String medicineId);
+
+    Medicine save(Medicine medicine);
 }

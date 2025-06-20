@@ -35,4 +35,6 @@ public class Medicine {
 
     @Column(length = 200)
     private String manufacturer;
+
+    private Boolean isActive;
 }
