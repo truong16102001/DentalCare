@@ -59,4 +59,10 @@ public class BookingServiceImpl implements BookingService {
     public List<Booking> searchByPhoneNumber(String phone) {
         return bookingRepository.findByPhoneNumber(phone);
     }
+    @Override
+    public long gettotalBookingByStatus(String status, String start, int numberOfDay) {
+        LocalDate startDate = LocalDate.parse(start);
+        LocalDate endDate = startDate.plusDays(numberOfDay - 1);
+        return bookingRepository.countByStatusAndDateRange(status, startDate, endDate);
+    }
 }

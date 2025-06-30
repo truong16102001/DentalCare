@@ -1,6 +1,7 @@
 package com.example.swp.controller;
 
 import com.example.swp.entity.*;
+import com.example.swp.repository.ImageRepository;
 import com.example.swp.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +10,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.text.SimpleDateFormat;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -37,6 +43,8 @@ public class ManagerController {
     private  MedicineService medicineService;
     @Autowired
     private  InvoiceService invoiceService;
+    @Autowired
+    ImageRepository imageRepository;
 
     @GetMapping("/work-assignment")
     public String getWorkSchedule(Model model, HttpSession session,
@@ -62,7 +70,6 @@ public class ManagerController {
             model.addAttribute("shifts", shifts != null ? shifts : new ArrayList<>());
             model.addAttribute("rooms", rooms != null ? rooms : new ArrayList<>());
             model.addAttribute("doctors", doctors);
-            session.setAttribute("p", 7);
             return "manager/work-assignment";
         } catch (Exception e) {
             model.addAttribute("error", "Có lỗi xảy ra khi tải dữ liệu phân công làm việc.");
@@ -95,10 +102,12 @@ public class ManagerController {
 
     @GetMapping("/doctor-schedule")
     public String getDoctorSchedule(Model model, HttpSession session,
-                                  @RequestParam(name = "date", required = false) LocalDate date,
+                                  @RequestParam(name = "fromDate", required = false) LocalDate fromDate,
+                                    @RequestParam(name = "toDate", required = false) LocalDate toDate,
                                     @RequestParam(name = "doctorId", required = false) Integer doctorId
     ) {
-        if(date == null) date = LocalDate.now();
+        if(fromDate == null) fromDate = LocalDate.now();
+        if(toDate == null) toDate = LocalDate.now();
         try {
 
             if(doctorId == null){
@@ -106,7 +115,7 @@ public class ManagerController {
             }
 
             // Lấy danh sách phân công làm việc cho hôm nay
-            List<Session> sessions = sessionService.getBySessionDate(date);
+            List<Session> sessions = sessionService.getBySessionDate(fromDate, toDate);
             if (doctorId != null) {
                 Integer finalDoctorId = doctorId;
                 sessions = sessions.stream()
@@ -118,29 +127,34 @@ public class ManagerController {
             List<Room> rooms = roomService.findAll();
 
             List<Slot> slots = slotService.findAll();
-            // Tạo map [roomId + slotId] -> Session
+            // Tạo map [slotId + date] -> Session
             Map<String, Session> sessionMap = new HashMap<>();
 
             for (Session s : sessions) {
                 String key = "";
                 for(Slot slot : slots){
                     if(s.getSchedule().getShift().getSlots().contains(slot)){
-                        key = s.getSchedule().getRoom().getRoomId() + "_" + slot.getSlotId();
+                         key =  slot.getSlotId()
+                                + "_" + s.getSessionDate();
+                        sessionMap.put(key, s);
                     }
                 }
                 if(!key.isEmpty()){
                     sessionMap.put(key, s);
                 }
             }
+            List<LocalDate> dates = fromDate.datesUntil(toDate.plusDays(1)).toList();
+            model.addAttribute("dates", dates);
             // Gửi sang giao diện
             model.addAttribute("sessionMap", sessionMap);
-            model.addAttribute("date", date);
+            model.addAttribute("fromDate", fromDate);
+            model.addAttribute("toDate", toDate);
             model.addAttribute("sessions", sessions);
             model.addAttribute("shifts", shifts != null ? shifts : new ArrayList<>());
             model.addAttribute("slots", slots != null ? slots : new ArrayList<>());
             model.addAttribute("rooms", rooms != null ? rooms : new ArrayList<>());
             session.setAttribute("p", 7);
-            String historyUrl = "/doctor-schedule?date="+date;
+            String historyUrl = "/doctor-schedule?fromDate="+fromDate+"&toDate="+toDate;
             session.setAttribute("historyUrl", historyUrl);
             return "doctor/doctor-schedule";
         } catch (Exception e) {
@@ -177,6 +191,7 @@ public class ManagerController {
         Invoice invoice = invoiceService.findBySession(s).orElse(null);
         model.addAttribute("reportMedicines", reportMedicines);
         model.addAttribute("patientReport", patientReport);
+        model.addAttribute("invoice", invoice);
         model.addAttribute("ses", s);
         return "doctor/update-report";
     }
@@ -186,7 +201,8 @@ public class ManagerController {
                              @RequestParam(required = false) String diagnosis,
                              @RequestParam(required = false) String treatmentMethod,
                              @RequestParam(required = false) String doctorNote,
-                             @RequestParam(required = false) List<String> medicineData) {
+                             @RequestParam(required = false) List<String> medicineData,
+                             @RequestParam(value = "images", required = false) List<MultipartFile> images) throws IOException {
 
         Session session = sessionService.findById(sessionId).orElse(null);
 
@@ -196,7 +212,35 @@ public class ManagerController {
         patientReport.setTreatmentMethod(treatmentMethod);
         patientReport.setDoctorNote(doctorNote);
         patientReport.setLastUpdatedTime(new Date());
+        if (images != null && !images.isEmpty()) {
+            Path uploadPath = Paths.get("uploads");
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
 
+            List<Image> savedImages = new ArrayList<>();
+            for (MultipartFile file : images) {
+                if (!file.isEmpty()) {
+                    String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+                    Path path = uploadPath.resolve(fileName);
+                    Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+
+                    Image img = Image.builder()
+                            .imageUrl("/uploads/" + fileName)
+                            .build();
+                    savedImages.add(imageRepository.save(img));
+                }
+            }
+
+            List<PatientReportImage> relations = savedImages.stream()
+                    .map(img -> PatientReportImage.builder()
+                            .patientReport(patientReport)
+                            .image(img)
+                            .build())
+                    .toList();
+
+            patientReport.getPatientReportImages().addAll(relations);
+        }
         PatientReport savedReport = patientReportService.save(patientReport);
         if (medicineData != null) {
             for (String data : medicineData) {
@@ -240,13 +284,43 @@ public class ManagerController {
                                @RequestParam(required = false) String diagnosis,
                                @RequestParam(required = false) String treatmentMethod,
                                @RequestParam(required = false) String doctorNote,
-                               @RequestParam(required = false) List<String> medicineData) {
+                               @RequestParam(required = false) List<String> medicineData,
+                               @RequestParam(value = "images", required = false) List<MultipartFile> images) throws IOException {
 
         PatientReport patientReport = patientReportService.findById(patientReportId).orElse(null);
         patientReport.setDiagnosis(diagnosis);
         patientReport.setTreatmentMethod(treatmentMethod);
         patientReport.setDoctorNote(doctorNote);
         patientReport.setLastUpdatedTime(new Date());
+
+        if (images != null && !images.isEmpty()) {
+            Path uploadPath = Paths.get("uploads");
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+            List<Image> savedImages = new ArrayList<>();
+            for (MultipartFile file : images) {
+                if (!file.isEmpty()) {
+                    String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+                    Path path = uploadPath.resolve(fileName);
+                    Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+
+                    Image img = Image.builder()
+                            .imageUrl("/uploads/" + fileName)
+                            .build();
+                    savedImages.add(imageRepository.save(img));
+                }
+            }
+
+            List<PatientReportImage> relations = savedImages.stream()
+                    .map(img -> PatientReportImage.builder()
+                            .patientReport(patientReport)
+                            .image(img)
+                            .build())
+                    .toList();
+
+            patientReport.getPatientReportImages().addAll(relations);
+        }
 
         PatientReport savedReport = patientReportService.save(patientReport);
 

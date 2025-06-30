@@ -1,7 +1,6 @@
 package com.example.swp.repository;
 
 import com.example.swp.entity.Medicine;
-import com.example.swp.entity.PatientReport;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,5 @@
 package com.example.swp.service;
 
-import com.example.swp.entity.Role;
 import com.example.swp.entity.User;
 
 import java.util.List;
@@ -15,4 +14,6 @@ public interface UserService {
     User findByUserId(int userId);
     String createPasswordResetToken(User user);
     List<User> findByRoleId(Integer roleId);
+    long countByRoleId(Integer roleId);
+
 }

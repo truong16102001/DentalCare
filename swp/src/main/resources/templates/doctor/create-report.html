@@ -61,7 +61,7 @@
 <body>
 <div class="container">
   <h2 class="mt-4">Tạo kết quả khám bệnh</h2>
-  <form th:action="@{/create-report}" method="post">
+  <form th:action="@{/create-report}" method="post" enctype="multipart/form-data">
     <input type="hidden" name="sessionId" th:value="${ses.sessionId}" />
 
     <div class="container-split">
@@ -82,6 +82,11 @@
         <div class="mb-3">
           <label>Ghi chú bác sĩ</label>
           <textarea class="form-control" name="doctorNote" rows="2"></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label>Ảnh kết quả khám (tải nhiều ảnh)</label>
+          <input type="file" class="form-control" name="images" multiple accept="image/*">
         </div>
       </div>
 

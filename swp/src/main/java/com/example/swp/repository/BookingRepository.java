@@ -3,6 +3,8 @@ package com.example.swp.repository;
 import com.example.swp.entity.Booking;
 import com.example.swp.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -16,4 +18,13 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
     List<Booking> findByRegisteredTimeBetween(Date startTime, Date endTime);
     List<Booking> findByPatient(User u);
     List<Booking> findByPhoneNumber(String phone);
+    @Query("""
+        SELECT COUNT(b)
+        FROM Booking b
+        WHERE b.status = :status
+          AND b.appointmentDate BETWEEN :start AND :end
+    """)
+    long countByStatusAndDateRange(@Param("status") String status,
+                                   @Param("start") LocalDate start,
+                                   @Param("end") LocalDate end);
 }

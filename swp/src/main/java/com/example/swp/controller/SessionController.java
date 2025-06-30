@@ -1,8 +1,6 @@
 package com.example.swp.controller;
 
-import com.example.swp.entity.Booking;
-import com.example.swp.entity.Session;
-import com.example.swp.entity.WorkingSchedule;
+import com.example.swp.entity.*;
 import com.example.swp.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -26,7 +23,12 @@ public class SessionController {
     WorkScheduleService workScheduleService;
     @Autowired
     SessionService sessionService;
-
+    @Autowired
+    PatientReportService patientReportService;
+    @Autowired
+    ReportMedicineService reportMedicineService;
+    @Autowired
+    InvoiceService invoiceService;
     @GetMapping("/create-session")
     public String createSessionPage(
             @RequestParam(required = false) Integer bookingId,
@@ -35,26 +37,29 @@ public class SessionController {
     ) {
         Booking booking = bookingService.findById(bookingId).orElse(null);
         if(booking != null){
-            List<WorkingSchedule> workingScheduleList = workScheduleService.getByWorkingDate(
-                    booking.getAppointmentDate()
-            );
-            List<Session> sessions = sessionService.findAll();
+            List<WorkingSchedule> workingScheduleList = workScheduleService.getByWorkingDate(booking.getAppointmentDate());
+
+            List<Session> sessions = sessionService.findBySessionDateAndStatusNot(booking.getAppointmentDate(), "Ended");
+
+            System.out.println("sessionsize:" + sessions);
+            System.out.println("kkk: " + workingScheduleList);
             // Lọc theo slotId
             workingScheduleList = workingScheduleList.stream()
                     .filter(ws -> ws.getShift().getSlots().stream()
                             .anyMatch(slot -> slot.getSlotId().equals(booking.getSlot().getSlotId())))
                     .collect(Collectors.toList());
 
-            // Tạo Set các workingScheduleId đã có trong sessions
-            Set<Integer> sessionScheduleIds = sessions.stream()
-                    .map(s -> s.getSchedule().getScheduleId())
-                    .collect(Collectors.toSet());
+//            // Tạo Set các workingScheduleId đã có trong sessions
+//            Set<Integer> sessionScheduleIds = sessions.stream()
+//                    .map(s -> s.getSchedule().getScheduleId())
+//                    .collect(Collectors.toSet());
 
             // Lọc ra các workingSchedule chưa có trong session
-            workingScheduleList = workingScheduleList.stream()
-                    .filter(ws -> !sessionScheduleIds.contains(ws.getScheduleId()))
-                    .collect(Collectors.toList());
+//            workingScheduleList = workingScheduleList.stream()
+//                    .filter(ws -> !sessionScheduleIds.contains(ws.getScheduleId()))
+//                    .collect(Collectors.toList());
 
+            System.out.println("wsL: " + workingScheduleList);
             model.addAttribute("workingScheduleList", workingScheduleList);
             model.addAttribute("booking", booking);
             return "manager/create-session";
@@ -87,5 +92,23 @@ public class SessionController {
         }
 
         return "redirect:" + session.getAttribute("historyUrl");
+    }
+
+    @GetMapping("/patient-report")
+    public String showPatientRepodt(
+            @RequestParam(required = true) Integer bookingId,
+            Model model,
+            HttpSession session
+    ) {
+        Booking booking = bookingService.findById(bookingId).orElse(null);
+        Session ses = sessionService.findByBooking(booking);
+        PatientReport patientReport = patientReportService.findBySession(ses).orElse(null);
+        List<ReportMedicine> reportMedicines = reportMedicineService.findByPatientReport(patientReport);
+        Invoice invoice = invoiceService.findBySession(ses).orElse(null);
+        model.addAttribute("reportMedicines", reportMedicines);
+        model.addAttribute("patientReport", patientReport);
+        model.addAttribute("ses", ses);
+        session.setAttribute("historyUrl", "/booking-history");
+        return "patient-report";
     }
 }

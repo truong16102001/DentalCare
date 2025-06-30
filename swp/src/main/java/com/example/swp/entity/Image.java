@@ -25,4 +25,8 @@ public class Image {
 
     @OneToMany(mappedBy = "image", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ServiceImage> serviceImages = new ArrayList<>();
+
+    @OneToMany(mappedBy = "image", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PatientReportImage> patientReportImages = new ArrayList<>();
+
 }

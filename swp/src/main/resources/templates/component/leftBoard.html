@@ -84,6 +84,10 @@
         </div>
 
         <div th:if="${session.roleId == 2}">
+          <a class="nav-link" th:href="@{/manager-manage}">
+            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+            Thống kê
+          </a>
           <a class="nav-link" th:classappend="${session.p == 3} ? 'active': ''" th:href="@{/manage-booking(p=3)}">
             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
             Quản lý lịch hẹn

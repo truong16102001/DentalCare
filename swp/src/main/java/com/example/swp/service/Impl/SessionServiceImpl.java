@@ -1,5 +1,6 @@
 package com.example.swp.service.Impl;
 
+import com.example.swp.entity.Booking;
 import com.example.swp.entity.Session;
 import com.example.swp.repository.SessionRepository;
 import com.example.swp.service.SessionService;
@@ -34,7 +35,17 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public List<Session> getBySessionDate(LocalDate date) {
-        return sessionRepository.findBySessionDate(date);
+    public List<Session> getBySessionDate(LocalDate fromDate, LocalDate toDate) {
+        return sessionRepository.findBySessionDateBetween(fromDate, toDate);
+    }
+
+    @Override
+    public List<Session> findBySessionDateAndStatusNot(LocalDate date, String status) {
+        return sessionRepository.findBySessionDateAndStatusNot(date, status);
+    }
+
+    @Override
+    public Session findByBooking(Booking booking) {
+        return  sessionRepository.findByBooking(booking);
     }
 }

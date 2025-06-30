@@ -20,5 +20,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     List<User> findByRole_RoleIdNot(Integer roleId);
     List<User> findByEmailContainingAndRole_RoleId(String email, Integer roleId);
     List<User> findByEmailContainingAndRole_RoleIdNot(String email, Integer roleId);
-
+    long countByRole(Role role);
 }

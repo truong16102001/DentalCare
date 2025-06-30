@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -37,5 +38,8 @@ public class PatientReport {
 
     @OneToMany(mappedBy = "patientReport", fetch = FetchType.LAZY)
     private List<ReportMedicine> reportMedicines;
+
+    @OneToMany(mappedBy = "patientReport", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PatientReportImage> patientReportImages = new ArrayList<>();
 
 }

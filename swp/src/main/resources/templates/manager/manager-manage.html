@@ -14,7 +14,13 @@
   <link rel="stylesheet" href="/css/style2.css">
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-xxxxxxx" crossorigin="anonymous" />
+  <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/themify-icons@1.0.1/css/themify-icons.css" rel="stylesheet">
+
   <!-- Include JavaScript component -->
   <th:block th:replace="component/javascript :: javascript"></th:block>
   <style>
@@ -49,6 +55,71 @@
         color: black;
     }
   </style>
+  <style>
+    .dateFromTo {
+        font-size: 20px;
+        padding: 1%;
+        margin: 0;
+        box-sizing: border-box;
+    }
+    input[type="date"] {
+        font-size: 20px;
+        border-radius: 5px;
+    }
+  </style>
+  <style>
+    li.nav-item a.active{
+        color: blue;
+        font-weight: bold;
+    }
+    li.nav-item a{
+        color: black;
+    }
+    .form-select option{
+        background-color: transparent;
+    }
+
+    .input-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    .input-container input[type="text"] {
+        padding-right: 30px;
+    }
+
+    .clear-icon {
+        position: absolute;
+        top: 50%;
+        color: red;
+        right: 10px;
+        transform: translateY(-50%);
+        cursor: pointer;
+        display: none;
+    }
+
+    .input-container:hover .clear-icon {
+        display: block;
+    }
+
+    .product-item {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgb(0 0 0);
+        text-align: center;
+    }
+
+    .product-thumb {
+        width: 180px;
+        height: 250px;
+    }
+
+    .product-name {
+        /* You can adjust the font size as needed */
+        font-size: 14px;
+        /* You can add additional styles if needed */
+    }
+  </style>
 </head>
 <body>
 <div id="main">
@@ -56,10 +127,192 @@
   <th:block th:replace="component/header :: header"></th:block>
   <div class="container-fluid" style="margin-top: 100px ">
     <div class="row">
-      <h1 style="text-align: center;">Manager Dashboard</h1>
       <th:block th:replace="component/leftBoard :: leftBoard"></th:block>
+      <div class="col-md-10">
+        <main>
+          <div class="container-fluid px-4">
+            <h2 class="mt-4 text-center mb-4">Thống kê</h2>
+
+            <div class="row numberStatistic">
+              <div class="col-xl-3 col-lg-4 col-md-4 mt-4">
+                <div class="card features feature-primary rounded border-0 shadow p-4">
+                  <div class="d-flex align-items-center">
+                    <div class="icon text-center rounded-md">
+                      <i class="fa fa-user"></i>
+                    </div>
+                    <div class="flex-1 ms-2">
+                      <h5 class="mb-0" th:text="${noCustomer}">0</h5>
+                      <p class="text-muted mb-0">Customer</p>
+                    </div>
+                  </div>
+                </div>
+              </div><!-- end col -->
+
+              <div class="col-xl-3 col-lg-4 col-md-4 mt-4">
+                <div class="card features feature-primary rounded border-0 shadow p-4">
+                  <div class="d-flex align-items-center">
+                    <div class="icon text-center rounded-md">
+                      <i class="ti ti-dropbox-alt"></i>
+                    </div>
+                    <div class="flex-1 ms-2">
+                      <h5 class="mb-0" th:text="${noService}">0</h5>
+                      <p class="text-muted mb-0">Service</p>
+                    </div>
+                  </div>
+                </div>
+              </div><!-- end col -->
+            </div>
+
+            <br>
+
+            <div class="dateFromTo">
+              <form th:action="@{/manager-manage}" onsubmit="return checkDate()">
+                Từ:
+                <input type="date" id="start" name="start" th:value="${start}">
+                Đến:
+                <input type="date" id="end" name="end" th:value="${end}">
+                <input class="ml-4 btn btn-primary" type="submit" value="Thống kê"/>
+              </form>
+            </div>
+
+            <div class="row mt-4">
+              <div class="col-xl-6">
+                <div class="card mb-4">
+                  <div class="card-header">
+                    <i class="fas fa-chart-pie me-1"></i>
+                    Thống kê lịch hẹn
+                  </div>
+                  <div class="card-body">
+                    <canvas id="myChart" width="100%" height="40"></canvas>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-6">
+                <div class="card mb-4">
+                  <div class="card-header">
+                    <i class="fas fa-chart-bar me-1"></i>
+                    Thống kê doanh thu
+                  </div>
+                  <div class="card-body">
+                    <canvas id="myAreaChart-1" width="100%" height="40"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+
     </div>
   </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="/js/scripts.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+<script th:inline="javascript">
+  /*<![CDATA[*/
+
+      var pieLabels = JSON.parse(/*[[${pieLabelsJson}]]*/);
+      var pieData = JSON.parse(/*[[${pieDataJson}]]*/);
+
+      console.log("Labels:", pieLabels);
+      console.log("Data:", pieData);
+
+      var ctx = document.getElementById("myChart");
+      if (ctx) {
+          new Chart(ctx, {
+              type: 'bar',
+              data: {
+                  labels: pieLabels,
+                  datasets: [{
+                      label: "Số lượng",
+                      data: pieData,
+                      backgroundColor: ['red', 'blue', 'green']
+                  }]
+              },
+              options: {
+                  responsive: true,
+                  plugins: {
+                      legend: {
+                          display: false
+                      }
+                  },
+                  scales: {
+                      y: {
+                          beginAtZero: true,
+                          ticks: {
+                              stepSize: 3,     // bước nhảy mỗi 3 đơn vị
+                              precision: 0     // không có số lẻ
+                          }
+                      }
+                  }
+              }
+          });
+      }
+
+  /*]]>*/
+</script>
+
+
+
+
+
+
+
+<script th:inline="javascript">
+  /*<![CDATA[*/
+      var revenueLabels = [
+          /*[# th:each="item : ${listChartRevenueArea}"]*/
+              /*[[${item.date}]]*/,
+          /*[/]*/
+      ];
+
+      var revenueData = [
+          /*[# th:each="item : ${listChartRevenueArea}"]*/
+              /*[[${item.value}]]*/,
+          /*[/]*/
+      ];
+
+      console.log("Revenue Labels", revenueLabels);
+      console.log("Revenue Data", revenueData);
+
+      var ctx1 = document.getElementById("myAreaChart-1");
+      new Chart(ctx1, {
+          type: 'bar',
+          data: {
+              labels: revenueLabels,
+              datasets: [{
+                  label: "Doanh Thu",
+                  backgroundColor: "rgba(2,117,216,0.2)",
+                  borderColor: "rgba(2,117,216,1)",
+                  data: revenueData
+              }],
+          },
+          options: {
+              scales: {
+                  x: {
+                      grid: { display: false },
+                      ticks: { maxTicksLimit: 7 }
+                  },
+                  y: {
+                      min: 0,
+                      max: /*[[${maxListChartRevenueArea}]]*/,
+                      ticks: { maxTicksLimit: 5 },
+                      grid: { color: "rgba(0, 0, 0, .125)" }
+                  }
+              },
+              plugins: {
+                  legend: {
+                      display: false
+                  }
+              }
+          }
+      });
+  /*]]>*/
+</script>
+
 </body>
 </html>

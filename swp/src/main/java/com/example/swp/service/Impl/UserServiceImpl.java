@@ -76,4 +76,13 @@ public class UserServiceImpl  implements UserService {
         return userRepository.findByRole(role);
     }
 
+    @Override
+    public long countByRoleId(Integer roleId) {
+        Role role = roleRepository.findById(roleId).orElse(null);
+        if (role == null) {
+            return 0;
+        }
+        return userRepository.countByRole(role);
+    }
+
 }

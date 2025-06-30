@@ -28,7 +28,9 @@ Phase 3:
 - Quản lý thuốc (account Manager): Search and CRUD thuốc
 
 --------------------------------
-Phase 4: (tuần tới)
-- Take attendance
-- Thống kê
+Phase 4: 
+- Hoàn thành màn tìm kiếm lịch (như FAP)
+- Hoàn thành màn thống kê (của manager)
+- Hoàn thành màn view report history (customer)
+- Hoàn thành chức năng: bác sĩ có thể tải lên nhiều ảnh kết quả khám, bệnh nhân có thể xem danh sách ảnh đó (ảnh sẽ lưu ở thư mục uploads của server thay vì đặt base64)
 

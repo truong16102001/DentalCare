@@ -1,7 +1,6 @@
 package com.example.swp.service.Impl;
 
 import com.example.swp.entity.Slot;
-import com.example.swp.entity.User;
 import com.example.swp.repository.SlotRepository;
 import com.example.swp.service.SlotService;
 import lombok.AccessLevel;

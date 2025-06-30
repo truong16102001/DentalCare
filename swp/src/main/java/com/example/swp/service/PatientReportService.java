@@ -3,7 +3,6 @@ package com.example.swp.service;
 import com.example.swp.entity.PatientReport;
 import com.example.swp.entity.Session;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface PatientReportService {

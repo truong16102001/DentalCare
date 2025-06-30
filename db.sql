@@ -47,7 +47,7 @@ CREATE TABLE `booking` (
   CONSTRAINT `FKd6bok0hme4dnt62ldm25tgl7` FOREIGN KEY (`service_id`) REFERENCES `services` (`service_id`),
   CONSTRAINT `FKf91hxcvywio343rabt0v9gcd3` FOREIGN KEY (`slot_id`) REFERENCES `slots` (`slot_id`),
   CONSTRAINT `FKgr38bv1l32hnqnhqeyxtxdxe8` FOREIGN KEY (`updated_user_id`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -56,7 +56,7 @@ CREATE TABLE `booking` (
 
 LOCK TABLES `booking` WRITE;
 /*!40000 ALTER TABLE `booking` DISABLE KEYS */;
-INSERT INTO `booking` VALUES (1,'hn','2025-06-12',NULL,'truongx62001@gmail.com','2025-06-12 03:58:46.189000','a','Application for .NET Developer Position - Nguyen Dinh Truong','0366313061','2025-06-12 03:23:28.061000','Completed',NULL,2,1,4),(2,'hn','2025-06-12',NULL,'truongx62001@gmail.com','2025-06-12 04:03:02.770000','b','bbbb','0366313061','2025-06-12 03:24:00.098000','Completed',NULL,2,1,4),(3,'654 Guest Ln','2025-06-12',NULL,'guest@gmail.com','2025-06-13 07:41:21.334000','a','Guest User','0567891234','2025-06-12 03:24:49.091000','Completed',5,2,1,4),(5,'hn','2025-06-13',NULL,'truongx62001@gmail.com','2025-06-13 09:06:54.412000','aaa','Application for .NET Developer Position - Nguyen Dinh Truong','0366313061','2025-06-13 09:00:18.417000','Processing',NULL,4,1,2),(6,'hn','2025-06-13',NULL,'truongx62001@gmail.com','2025-06-13 09:06:36.497000','ffff','Application for .NET Developer Position - Nguyen Dinh Truong','0366313061','2025-06-13 09:06:36.497000','Pending',NULL,2,1,NULL);
+INSERT INTO `booking` VALUES (1,'hn','2025-06-12',NULL,'truongx62001@gmail.com','2025-06-12 03:58:46.189000','a','Application for .NET Developer Position - Nguyen Dinh Truong','0366313061','2025-06-12 03:23:28.061000','Completed',NULL,2,1,4),(2,'hn','2025-06-12',NULL,'truongx62001@gmail.com','2025-06-12 04:03:02.770000','b','bbbb','0366313061','2025-06-12 03:24:00.098000','Completed',NULL,2,1,4),(3,'654 Guest Ln','2025-06-12',NULL,'guest@gmail.com','2025-06-13 07:41:21.334000','a','Guest User','0567891234','2025-06-12 03:24:49.091000','Completed',5,2,1,4),(5,'hn','2025-06-13',NULL,'truongx62001@gmail.com','2025-06-13 09:06:54.412000','aaa','Application for .NET Developer Position - Nguyen Dinh Truong','0366313061','2025-06-13 09:00:18.417000','Processing',NULL,4,1,2),(6,'hn','2025-06-13',NULL,'truongx62001@gmail.com','2025-06-13 09:06:36.497000','ffff','Application for .NET Developer Position - Nguyen Dinh Truong','0366313061','2025-06-13 09:06:36.497000','Pending',NULL,2,1,NULL),(7,'HN','2025-06-28',NULL,'truong123@gmail.com','2025-06-28 09:42:45.352000','aaa','Nguyen Truong','0366313123','2025-06-28 09:41:56.003000','Processing',NULL,3,3,2),(8,'HN','2025-06-28',NULL,'truongx62001@gmail.com','2025-06-28 09:43:03.467000','kkk','Nguyen Truong','0123123123','2025-06-28 09:42:26.079000','Processing',NULL,1,4,2),(9,'hn','2025-06-30',NULL,'truongx62001@gmail.com','2025-06-30 04:43:12.913000','hihi','Nguyen Van Da','0123132123','2025-06-30 04:16:12.221000','Completed',6,4,9,4);
 /*!40000 ALTER TABLE `booking` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -71,7 +71,7 @@ CREATE TABLE `images` (
   `image_id` int NOT NULL AUTO_INCREMENT,
   `image_url` text,
   PRIMARY KEY (`image_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -80,7 +80,7 @@ CREATE TABLE `images` (
 
 LOCK TABLES `images` WRITE;
 /*!40000 ALTER TABLE `images` DISABLE KEYS */;
-INSERT INTO `images` VALUES (1,'/images/khamtongquat1.png'),(2,'/images/caovoirang1.png'),(3,'/images/taytrangrang1.png'),(4,'/images/chupxquangrang1.png');
+INSERT INTO `images` VALUES (1,'/images/khamtongquat1.png'),(2,'/images/caovoirang1.png'),(3,'/images/taytrangrang1.png'),(4,'/images/chupxquangrang1.png'),(5,'/uploads/1b29a930-2283-40b5-ba2b-8e7bfb74de43_bac1d83e-2983-44c4-9a16-084234261245.jpg'),(6,'/uploads/e5649fc6-eceb-47ee-963c-f4d2913dad57_69540856_732502217188751_2303508819042369536_n.jpg'),(7,'/uploads/701a0461-2e79-4f42-acce-18f0be925ce5_AA1HzBvv.jpg');
 /*!40000 ALTER TABLE `images` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -103,7 +103,7 @@ CREATE TABLE `invoices` (
   PRIMARY KEY (`invoice_id`),
   UNIQUE KEY `UKieprf1q2oymsua39y89sp0v0w` (`session_id`),
   CONSTRAINT `FKpyk1gld13fn87pxq0xgfysnhd` FOREIGN KEY (`session_id`) REFERENCES `sessions` (`session_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -112,7 +112,7 @@ CREATE TABLE `invoices` (
 
 LOCK TABLES `invoices` WRITE;
 /*!40000 ALTER TABLE `invoices` DISABLE KEYS */;
-INSERT INTO `invoices` VALUES (1,'2025-06-17','2025-06-17 09:01:50.510000','2025-06-17 10:02:57.650000',NULL,'Paid',208000.00,1),(2,'2025-06-17','2025-06-17 09:03:30.730000','2025-06-17 10:06:14.996000',NULL,'Paid',310600.00,2);
+INSERT INTO `invoices` VALUES (1,'2025-06-17','2025-06-17 09:01:50.510000','2025-06-17 10:02:57.650000',NULL,'Paid',208000.00,1),(2,'2025-06-17','2025-06-17 09:03:30.730000','2025-06-17 10:06:14.996000',NULL,'Paid',310600.00,2),(3,'2025-06-30','2025-06-30 04:26:11.017000',NULL,NULL,'No_Paid',NULL,3);
 /*!40000 ALTER TABLE `invoices` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -164,7 +164,7 @@ CREATE TABLE `patient_report` (
   PRIMARY KEY (`patient_report_id`),
   UNIQUE KEY `UKi17qyjvisst982ev35jfu0q8b` (`session_id`),
   CONSTRAINT `FKtpvgc99al75bo7n94shkqvvwu` FOREIGN KEY (`session_id`) REFERENCES `sessions` (`session_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -173,8 +173,37 @@ CREATE TABLE `patient_report` (
 
 LOCK TABLES `patient_report` WRITE;
 /*!40000 ALTER TABLE `patient_report` DISABLE KEYS */;
-INSERT INTO `patient_report` VALUES (5,'suif','aaa','2025-06-17 09:01:50.482000','aa',1),(6,'giang mai','nono','2025-06-17 09:03:30.696000','no no',2);
+INSERT INTO `patient_report` VALUES (5,'suif','aaa','2025-06-17 09:01:50.482000','aa',1),(6,'giang mai','nono','2025-06-17 09:03:30.696000','no no',2),(7,'ung thu','kkkk','2025-06-30 04:40:50.739000','het cach',3);
 /*!40000 ALTER TABLE `patient_report` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `patient_report_image`
+--
+
+DROP TABLE IF EXISTS `patient_report_image`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `patient_report_image` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `image_id` int DEFAULT NULL,
+  `patient_report_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKb2jkxaynj06kqqwi1g31mv2eh` (`image_id`),
+  KEY `FK26bl6u33kfdi33y78hcojq7mn` (`patient_report_id`),
+  CONSTRAINT `FK26bl6u33kfdi33y78hcojq7mn` FOREIGN KEY (`patient_report_id`) REFERENCES `patient_report` (`patient_report_id`),
+  CONSTRAINT `FKb2jkxaynj06kqqwi1g31mv2eh` FOREIGN KEY (`image_id`) REFERENCES `images` (`image_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `patient_report_image`
+--
+
+LOCK TABLES `patient_report_image` WRITE;
+/*!40000 ALTER TABLE `patient_report_image` DISABLE KEYS */;
+INSERT INTO `patient_report_image` VALUES (1,5,7),(2,6,7),(3,7,7);
+/*!40000 ALTER TABLE `patient_report_image` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -195,7 +224,7 @@ CREATE TABLE `report_medicine` (
   KEY `FKibe95b9rlfq22s1hqkp15nfha` (`patient_report_id`),
   CONSTRAINT `FK2twypbignvwgot9vk4tfrs2xp` FOREIGN KEY (`medicine_id`) REFERENCES `medicines` (`medicine_id`),
   CONSTRAINT `FKibe95b9rlfq22s1hqkp15nfha` FOREIGN KEY (`patient_report_id`) REFERENCES `patient_report` (`patient_report_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -204,7 +233,7 @@ CREATE TABLE `report_medicine` (
 
 LOCK TABLES `report_medicine` WRITE;
 /*!40000 ALTER TABLE `report_medicine` DISABLE KEYS */;
-INSERT INTO `report_medicine` VALUES (10,'a','MED001',5,1),(11,'b','MED002',5,2),(12,'fff','MED005',6,1),(13,'aaaaa','MED006',6,3);
+INSERT INTO `report_medicine` VALUES (10,'a','MED001',5,1),(11,'b','MED002',5,2),(12,'fff','MED005',6,1),(13,'aaaaa','MED006',6,3),(15,'a','MED001',7,1);
 /*!40000 ALTER TABLE `report_medicine` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -333,7 +362,7 @@ CREATE TABLE `sessions` (
   CONSTRAINT `FKbhcw23mgoxq01enj7lcgf8rfl` FOREIGN KEY (`slot_id`) REFERENCES `slots` (`slot_id`),
   CONSTRAINT `FKhwfxl01n3dq5v4k9lktvrw1go` FOREIGN KEY (`schedule_id`) REFERENCES `working_schedules` (`schedule_id`),
   CONSTRAINT `FKjdx4s91np9yr5nhstlc3olbs1` FOREIGN KEY (`booking_id`) REFERENCES `booking` (`booking_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -342,7 +371,7 @@ CREATE TABLE `sessions` (
 
 LOCK TABLES `sessions` WRITE;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
-INSERT INTO `sessions` VALUES (1,3,1,1,'2025-06-12','Ended'),(2,5,3,2,'2025-06-12','Ended');
+INSERT INTO `sessions` VALUES (1,3,1,1,'2025-06-12','Ended'),(2,5,3,2,'2025-06-12','Ended'),(3,9,6,NULL,'2025-06-30','Ended');
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -489,7 +518,7 @@ CREATE TABLE `working_schedules` (
   CONSTRAINT `FK7g5nxotdwlgkd8iog4ivq5s72` FOREIGN KEY (`employee_id`) REFERENCES `users` (`user_id`),
   CONSTRAINT `FKdc5kb6tvpq28gqn763pmi3qmy` FOREIGN KEY (`shift_id`) REFERENCES `shifts` (`shift_id`),
   CONSTRAINT `FKgxf5nu7cet6gr3jt1yraefu3h` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`room_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -498,7 +527,7 @@ CREATE TABLE `working_schedules` (
 
 LOCK TABLES `working_schedules` WRITE;
 /*!40000 ALTER TABLE `working_schedules` DISABLE KEYS */;
-INSERT INTO `working_schedules` VALUES (1,'2025-06-12',_binary '','2025-06-12 00:00:00.000000',3,1,1),(2,'2025-06-12',_binary '','2025-06-12 10:47:07.507000',5,2,2),(3,'2025-06-12',_binary '','2025-06-12 10:48:39.550000',3,3,1),(4,'2025-06-13',_binary '','2025-06-13 07:47:38.203000',3,1,1),(5,'2025-06-13',_binary '','2025-06-13 07:47:41.304000',3,2,2);
+INSERT INTO `working_schedules` VALUES (1,'2025-06-12',_binary '','2025-06-12 00:00:00.000000',3,1,1),(2,'2025-06-12',_binary '','2025-06-12 10:47:07.507000',5,2,2),(3,'2025-06-12',_binary '','2025-06-12 10:48:39.550000',3,3,1),(4,'2025-06-13',_binary '','2025-06-13 07:47:38.203000',3,1,1),(5,'2025-06-13',_binary '','2025-06-13 07:47:41.304000',3,2,2),(6,'2025-06-30',_binary '','2025-06-30 04:17:55.482000',3,1,2);
 /*!40000 ALTER TABLE `working_schedules` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -511,4 +540,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-06-20 16:19:23
+-- Dump completed on 2025-06-30 11:48:42

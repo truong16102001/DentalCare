@@ -2,6 +2,8 @@ package com.example.swp.service;
 
 import com.example.swp.entity.Booking;
 import com.example.swp.entity.User;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -15,4 +17,5 @@ public interface BookingService {
     void delete(Booking booking);
     List<Booking> searchByPatient(User u);
     List<Booking> searchByPhoneNumber(String phone);
+    long gettotalBookingByStatus(String status, String start, int numberOfDay);
 }
